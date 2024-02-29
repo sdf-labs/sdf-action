@@ -14,7 +14,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: sdf
         with:
-          command: 'sdf compile'
+          command: 'sdf push'
           workspace_dir: 'workspace/lineage'
           access_key: ${{ secrets.ACCESS_KEY }}
           secret_key: ${{ secrets.SECRET_KEY }}

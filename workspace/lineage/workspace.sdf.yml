@@ -1,5 +1,5 @@
 workspace:
-  name: lineage
+  name: lineage_sdf_action
   edition: "1.1"
   description: >
     Creates a three stage pipeline with one source ('source.sql') and two sinks, called 'sink.sql' and 'knis.sql'. It shows how to compute lineage.
