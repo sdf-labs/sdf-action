@@ -6,7 +6,7 @@ echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
 
 # Check if the variable starts with 'sdf push'
-if [[ $variable == "sdf push"* ]]; then
+if [[ $1 == "sdf push"* ]]; then
   echo "'sdf push' runs 'sdf auth login' using headless credentials"
   sdf auth login --access-key "${ACCESS_KEY}" --secret-key "${SECRET_KEY}"
 fi
