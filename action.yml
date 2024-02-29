@@ -1,16 +1,30 @@
 # action.yml
-name: "Hello World"
-description: "Greet someone and record the time"
+name: "dbt action"
+description: "Run sdf cli commands"
 inputs:
-  who-to-greet: # id of input
-    description: "Who to greet"
+  command:
+    description: "The sdf command to run"
+    default: "sdf compile"
     required: true
-    default: "World"
+  workspace_dir:
+    description: "The directory of the workspace"
+    default: "."
+    required: true
+  access_key:
+    description: "The access key"
+    required: true
+  secret_key:
+    description: "The secret key"
+    required: true
 outputs:
-  time: # id of output
-    description: "The time we greeted you"
+  result:
+    description: "The log of the command"
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.command }}
+  env:
+    WORKSPACE_DIR: ${{ inputs.workspace_dir }}
+    ACCESS_KEY: ${{ inputs.access_key }}
+    SECRET_KEY: ${{ inputs.secret_key }}

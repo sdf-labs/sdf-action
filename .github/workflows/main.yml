@@ -4,19 +4,21 @@ on:
       - 'main'
 
 jobs:
-  hello_world_job:
+  sdf_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Run sdf compile
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Hello world action step
+      - name: sdf compile step
         uses: ./ # Uses an action in the root directory
-        id: hello
+        id: sdf
         with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+          command: 'sdf compile'
+          workspace_dir: 'workspace/lineage'
+          access_key: ${{ secrets.ACCESS_KEY }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          
+      # Use the output from the `sdf` step
+      - name: Get the sdf output
+        run: echo "The result was ${{ steps.sdf.outputs.result }}"
