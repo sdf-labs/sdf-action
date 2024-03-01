@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+source /.venv/bin/activate
+
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
 
@@ -10,6 +12,13 @@ if [[ $1 == "sdf push"* ]]; then
   echo "'sdf push' runs 'sdf auth login' using headless credentials"
   sdf auth login --access-key "${ACCESS_KEY}" --secret-key "${SECRET_KEY}"
 fi
+
+echo "running dbt compile and sdf dbt refresh"
+set -a
+source .env
+set +a
+dbt compile
+sdf dbt refresh
 
 # run sdf auth login snwoflake if necessary
 provider_type=$(yq .provider.type workspace.sdf.yml | grep snowflake)
