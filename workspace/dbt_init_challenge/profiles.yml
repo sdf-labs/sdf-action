@@ -1,7 +1,7 @@
 dbt_hol:
   outputs:
     dev:
-      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT_ID') }}"
       database: dbt_hol_dev
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: dbt_test_role
@@ -11,7 +11,7 @@ dbt_hol:
       user: dbt_user
       warehouse: dbt_dev_wh
     prod:
-      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT_ID') }}"
       database: dbt_hol_dev
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: dbt_test_role
