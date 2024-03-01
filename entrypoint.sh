@@ -18,6 +18,8 @@ documents_length=$((1 + $(grep -- '---' workspace.sdf.yml | wc -l)))
 echo "documents_length=${documents_length}"
 while :; do
   provider_type=$(yq -d"${document_index}" r workspace.sdf.yml 'provider.type' 2>/dev/null)
+  echo "provider_type=${provider_type}"
+  echo "document_index=${document_index}"
   if [ $document_index -eq $documents_length ]; then
     break
   fi
