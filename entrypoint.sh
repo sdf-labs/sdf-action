@@ -1,6 +1,6 @@
 # !/bin/bash -l
 
-# set -eo pipefail
+set -eo pipefail
 
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
@@ -17,6 +17,7 @@ document_index=0
 workspace_file="${WORKSPACE_DIR}/workspace.sdf.yml"
 documents_length=$((1 + $(grep -- '---' ${workspace_file} | wc -l)))
 while :; do
+  echo "document_index=${document_index}"
   provider_type=$(yq -d"${document_index}" r ${workspace_file} 'provider.type' 2>/dev/null)
   if [ $document_index -eq $documents_length ]; then
     break
