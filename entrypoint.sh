@@ -14,9 +14,10 @@ fi
 # Iterate over each document in the YAML file and check if the provider type is snowflake
 # run sdf auth login snwoflake if necessary
 document_index=0
-documents_length=$((1 + $(grep -- '---' workspace.sdf.yml | wc -l)))
+workspace_file="${WORKSPACE_DIR}/workspace.sdf.yml"
+documents_length=$((1 + $(grep -- '---' ${workspace_file} | wc -l)))
 while :; do
-  provider_type=$(yq -d"${document_index}" r workspace.sdf.yml 'provider.type' 2>/dev/null)
+  provider_type=$(yq -d"${document_index}" r ${workspace_file} 'provider.type' 2>/dev/null)
   if [ $document_index -eq $documents_length ]; then
     break
   fi
