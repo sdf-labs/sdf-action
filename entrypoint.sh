@@ -25,7 +25,7 @@ if [[ -n $input_is_dbt ]]; then
 
   echo "running dbt compile done"
   sdf dbt refresh
-  echo "::endgroup"
+  echo "::endgroup::"
 fi
 
 # run sdf auth login snwoflake if necessary
