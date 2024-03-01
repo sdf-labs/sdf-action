@@ -1,1 +1,1 @@
-SELECT * FROM {{ ref("large_renter_occupied_units") }} LIMIT 10
+SELECT * FROM {{ ref("large_renter_occupied_units") }} LIMIT 42
