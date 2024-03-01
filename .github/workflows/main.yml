@@ -19,14 +19,19 @@ jobs:
           access_key: ${{ secrets.ACCESS_KEY }}
           secret_key: ${{ secrets.SECRET_KEY }}
 
+          is_dbt: 'true'
           snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
           snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          snowflake_role: "dbt_test_role"
-          snowflake_warehouse: "dbt_dev_wh"
-          dbt_target: "dev"
+          snowflake_role: 'dbt_test_role'
+          snowflake_warehouse: 'dbt_dev_wh'
+          dbt_target: 'dev'
 
           
       # Use the output from the `sdf` step
-      - name: Get the sdf output
-        run: echo "The result was ${{ steps.sdf.outputs.result }}"
+      - name: Display the sdf output
+        run: |
+          echo "```
+          ${{ steps.sdf.outputs.log }}
+          ```" >> $GITHUB_STEP_SUMMARY
+

@@ -16,7 +16,10 @@ inputs:
   secret_key:
     description: "The secret key"
     required: true
-
+  is_dbt:
+    description: "Whether the workspace is dbt based or not"
+    required: true
+    default: ""
   dbt_target:
     description: "The dbt target"
     required: false
@@ -40,12 +43,15 @@ inputs:
 
 outputs:
   result:
+    description: "The result (pass or failed)"
+  log:
     description: "The log of the command"
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
     - ${{ inputs.command }}
+    - ${{ inputs.is_dbt }}
   env:
     WORKSPACE_DIR: ${{ inputs.workspace_dir }}
     ACCESS_KEY: ${{ inputs.access_key }}
