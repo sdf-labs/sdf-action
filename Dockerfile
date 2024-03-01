@@ -1,5 +1,5 @@
 FROM rust:1.76.0-bookworm
-ARG SDF_VERSION=0.1.169
+ARG SDF_VERSION=0.1.170
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \

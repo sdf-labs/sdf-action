@@ -13,13 +13,13 @@ if [[ $1 == "sdf push"* ]]; then
   sdf auth login --access-key "${ACCESS_KEY}" --secret-key "${SECRET_KEY}"
 fi
 
-echo "running dbt compile and sdf dbt refresh"
-echo "DBT_TARGET=${DBT_TARGET}"
-echo "SNOWFLAKE_ACCOUNT_ID=${SNOWFLAKE_ACCOUNT_ID}"
-echo "SNOWFLAKE_USERNAME=${SNOWFLAKE_USERNAME}"
+echo "running dbt compile and sdf dbt refresh on DBT_TARGET=${DBT_TARGET}"
 dbt deps
+echo "dbt deps done"
 dbt compile
+echo "dbt compile done"
 sdf dbt refresh
+echo "sdf dbt refresh done"
 
 # run sdf auth login snwoflake if necessary
 provider_type=$(yq .provider.type workspace.sdf.yml | grep snowflake)
