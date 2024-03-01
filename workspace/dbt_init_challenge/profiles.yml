@@ -19,4 +19,4 @@ dbt_hol:
       threads: 1
       user: dbt_user
       warehouse: dbt_dev_wh
-  target: "{{ env_var('DBT_TARGET') }}"
+  target: dev
