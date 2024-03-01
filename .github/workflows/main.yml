@@ -30,8 +30,8 @@ jobs:
       # Use the output from the `sdf` step
       - name: Display the sdf output
         run: |
-          echo "### SDF Run Logs - :🪵:" >> $GITHUB_STEP_SUMMARY
+          echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
           echo '```' >>$GITHUB_STEP_SUMMARY
-          echo "output is ${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
+          echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
           echo '```' >>$GITHUB_STEP_SUMMARY
 
