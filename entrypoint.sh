@@ -38,12 +38,15 @@ fi
 
 # run and save outputs
 echo "running command: $input_command"
+{
+  echo 'log<<EOF'
+  echo "$log"
+  echo EOF
+} >>$GITHUB_OUTPUT
 log=$($input_command 2>&1)
 if [ $? -eq 0 ]; then
   echo "result=passed" >>$GITHUB_OUTPUT
-  echo "log=$log" >>$GITHUB_OUTPUT
 else
   echo "result=failed" >>$GITHUB_OUTPUT
-  echo "log=$log" >>$GITHUB_OUTPUT
   exit 1
 fi
