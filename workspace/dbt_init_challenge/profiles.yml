@@ -3,17 +3,17 @@ dbt_hol:
     dev:
       account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
       database: dbt_hol_dev
-      password: "{{ env_var('SNOWFLAKE_PWD') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: dbt_test_role
       schema: public
       threads: 1
       type: snowflake
       user: dbt_user
       warehouse: dbt_dev_wh
-    prod: 
+    prod:
       account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
       database: dbt_hol_dev
-      password: "{{ env_var('SNOWFLAKE_PWD') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: dbt_test_role
       schema: public
       threads: 1

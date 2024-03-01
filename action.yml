@@ -17,6 +17,10 @@ inputs:
     description: "The secret key"
     required: true
 
+  dbt_target:
+    description: "The dbt target"
+    required: false
+
   # required if snowflake table provider is used
   snowflake_account_id:
     description: "The snowflake account id"
@@ -52,3 +56,4 @@ runs:
     SNOWFLAKE_PASSWORD: ${{ inputs.snowflake_password }}
     SNOWFLAKE_ROLE: ${{ inputs.snowflake_role }}
     SNOWFLAKE_WAREHOUSE: ${{ inputs.snowflake_warehouse }}
+    DBT_TARGET: ${{ inputs.dbt_target }}

@@ -14,9 +14,6 @@ if [[ $1 == "sdf push"* ]]; then
 fi
 
 echo "running dbt compile and sdf dbt refresh"
-set -a
-source .env
-set +a
 dbt compile
 sdf dbt refresh
 
