@@ -1,6 +1,6 @@
 #!/bin/bash -l
 
-# set -eo pipefail
+set -eo pipefail
 
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
@@ -11,7 +11,6 @@ if [[ $1 == "sdf push"* ]]; then
   sdf auth login --access-key "${ACCESS_KEY}" --secret-key "${SECRET_KEY}"
 fi
 
-# Iterate over each document in the YAML file and check if the provider type is snowflake
 # run sdf auth login snwoflake if necessary
 provider_type=$(yq .provider.type workspace.sdf.yml | grep snowflake)
 echo "provider_type=${provider_type}"
@@ -21,7 +20,6 @@ if [[ $provider_type == "\"snowflake\"" ]]; then
   sdf auth login snowflake \
     --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
     --role "${SNOWFLAKE_ROLE}" --warehouse "${SNOWFLAKE_WAREHOUSE}"
-  break
 fi
 
 LOG_FILE="output.${GITHUB_RUN_ID}.txt"
