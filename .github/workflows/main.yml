@@ -27,9 +27,11 @@ jobs:
           snowflake_warehouse: 'dbt_dev_wh'
           dbt_target: 'dev'
 
-          
       # Use the output from the `sdf` step
       - name: Display the sdf output
         run: |
-          echo "```${{ steps.sdf.outputs.log }}```" >>$GITHUB_STEP_SUMMARY
+          echo "### SDF Run Logs - :🪵:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >>$GITHUB_STEP_SUMMARY
+          echo ${{ steps.sdf.outputs.log }} >>$GITHUB_STEP_SUMMARY
+          echo '```' >>$GITHUB_STEP_SUMMARY
 
