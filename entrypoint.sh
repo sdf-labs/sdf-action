@@ -13,9 +13,10 @@ fi
 
 # Iterate over each document in the YAML file and check if the provider type is snowflake
 # run sdf auth login snwoflake if necessary
-provider_type=$(yq .provider.type workspace.sdf.yml | grep "snowflake")
+provider_type=$(yq .provider.type workspace.sdf.yml | grep snowflake)
+echo "provider_type=${provider_type}"
 # Check if provider type is empty (indicating end of documents)
-if [[ "$provider_type" == "snowflake" ]]; then
+if [[ $provider_type == "\"snowflake\"" ]]; then
   echo "snowflake provider used: running 'sdf auth login'"
   sdf auth login snowflake \
     --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
