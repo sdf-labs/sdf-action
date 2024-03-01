@@ -1,0 +1,15 @@
+workspace:
+  edition: "1.1"
+  name: dbt_hol
+  includes:
+    - path: target/compiled/sdf/models
+      index: catalog-schema-table-name
+  dialect: snowflake
+  default-catalog: dbt_hol_dev
+  default-schema: public
+  default-profile: dbg
+---
+provider:
+  sources:
+    - census.public.*
+  type: snowflake

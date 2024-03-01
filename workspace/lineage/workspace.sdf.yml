@@ -36,3 +36,8 @@ table:
     - name: phone
       classifiers:
         - DATA.pii
+---
+provider:
+  type: snowflake
+  sources:
+    - public

@@ -16,6 +16,24 @@ inputs:
   secret_key:
     description: "The secret key"
     required: true
+
+  # required if snowflake table provider is used
+  snowflake_account_id:
+    description: "The snowflake account id"
+    required: false
+  snowflake_username:
+    description: "The snowflake username"
+    required: false
+  snowflake_password:
+    description: "The snowflake password"
+    required: false
+  snowflake_role:
+    description: "The snowflake role"
+    required: false
+  snowflake_warehouse:
+    description: "The snowflake warehouse"
+    required: false
+
 outputs:
   result:
     description: "The log of the command"
@@ -28,3 +46,9 @@ runs:
     WORKSPACE_DIR: ${{ inputs.workspace_dir }}
     ACCESS_KEY: ${{ inputs.access_key }}
     SECRET_KEY: ${{ inputs.secret_key }}
+
+    SNOWFLAKE_ACCOUNT_ID: ${{ inputs.snowflake_account_id }}
+    SNOWFLAKE_USERNAME: ${{ inputs.snowflake_username }}
+    SNOWFLAKE_PASSWORD: ${{ inputs.snowflake_password }}
+    SNOWFLAKE_ROLE: ${{ inputs.snowflake_role }}
+    SNOWFLAKE_WAREHOUSE: ${{ inputs.snowflake_warehouse }}

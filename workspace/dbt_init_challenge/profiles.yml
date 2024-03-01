@@ -1,0 +1,22 @@
+dbt_hol:
+  outputs:
+    dev:
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      database: dbt_hol_dev
+      password: "{{ env_var('SNOWFLAKE_PWD') }}"
+      role: dbt_test_role
+      schema: public
+      threads: 1
+      type: snowflake
+      user: dbt_user
+      warehouse: dbt_dev_wh
+    prod: 
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      database: dbt_hol_dev
+      password: "{{ env_var('SNOWFLAKE_PWD') }}"
+      role: dbt_test_role
+      schema: public
+      threads: 1
+      user: dbt_user
+      warehouse: dbt_dev_wh
+  target: "{{ env_var('DBT_TARGET') }}"
