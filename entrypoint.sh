@@ -13,27 +13,15 @@ fi
 
 # Iterate over each document in the YAML file and check if the provider type is snowflake
 # run sdf auth login snwoflake if necessary
-document_index=0
-documents_length=$((1 + $(grep -- '---' workspace.sdf.yml | wc -l)))
-echo "documents_length=${documents_length}"
-while :; do
-  provider_type=$(yq -d"${document_index}" r workspace.sdf.yml 'provider.type' 2>/dev/null)
-  echo "provider_type=${provider_type}"
-  echo "document_index=${document_index}"
-  if [ $document_index -eq $documents_length ]; then
-    break
-  fi
-
-  # Check if provider type is empty (indicating end of documents)
-  if [[ "$provider_type" == "snowflake" ]]; then
-    echo "snowflake provider used: running 'sdf auth login'"
-    sdf auth login snowflake \
-      --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
-      --role "${SNOWFLAKE_ROLE}" --warehouse "${SNOWFLAKE_WAREHOUSE}"
-    break
-  fi
-  ((document_index++))
-done
+provider_type=$(yq .provider.type workspace.sdf.yml | grep "snowflake")
+# Check if provider type is empty (indicating end of documents)
+if [[ "$provider_type" == "snowflake" ]]; then
+  echo "snowflake provider used: running 'sdf auth login'"
+  sdf auth login snowflake \
+    --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
+    --role "${SNOWFLAKE_ROLE}" --warehouse "${SNOWFLAKE_WAREHOUSE}"
+  break
+fi
 
 LOG_FILE="output.${GITHUB_RUN_ID}.txt"
 LOG_PATH="${WORKSPACE_DIR}/${LOG_FILE}"
