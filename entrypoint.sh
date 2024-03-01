@@ -1,5 +1,4 @@
 #!/bin/bash -l
-set -eo pipefail
 
 source /.venv/bin/activate
 
@@ -40,7 +39,6 @@ fi
 # run and save outputs
 echo "running command: $input_command"
 log=$($input_command 2>&1)
-echo "running command: $input_command done"
 if [ $? -eq 0 ]; then
   echo "result=passed" >>$GITHUB_OUTPUT
   echo "log=$log" >>$GITHUB_OUTPUT
