@@ -1,6 +1,6 @@
-#!/bin/bash -l
+# !/bin/bash -l
 
-set -eo pipefail
+# set -eo pipefail
 
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
