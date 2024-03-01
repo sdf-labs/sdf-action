@@ -44,10 +44,8 @@ echo "running command: $input_command done"
 if [ $? -eq 0 ]; then
   echo "result=passed" >>$GITHUB_OUTPUT
   echo "log=$log" >>$GITHUB_OUTPUT
-  echo "SDF run OK" >>"${LOG_FILE}"
 else
   echo "result=failed" >>$GITHUB_OUTPUT
   echo "log=$log" >>$GITHUB_OUTPUT
-  echo "SDF run failed" >>"${LOG_FILE}"
   exit 1
 fi
