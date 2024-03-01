@@ -17,6 +17,7 @@ echo "running dbt compile and sdf dbt refresh"
 echo "DBT_TARGET=${DBT_TARGET}"
 echo "SNOWFLAKE_ACCOUNT_ID=${SNOWFLAKE_ACCOUNT_ID}"
 echo "SNOWFLAKE_USERNAME=${SNOWFLAKE_USERNAME}"
+dbt deps
 dbt compile
 sdf dbt refresh
 
