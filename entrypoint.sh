@@ -14,6 +14,9 @@ if [[ $1 == "sdf push"* ]]; then
 fi
 
 echo "running dbt compile and sdf dbt refresh"
+echo "DBT_TARGET=${DBT_TARGET}"
+echo "SNOWFLAKE_ACCOUNT_ID=${SNOWFLAKE_ACCOUNT_ID}"
+echo "SNOWFLAKE_USERNAME=${SNOWFLAKE_USERNAME}"
 dbt compile
 sdf dbt refresh
 
