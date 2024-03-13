@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
   gnupg \
   python3.10 \
   python3-pip \
-  python3-venv \
   && rm -rf /var/lib/apt/lists/*
 
 # Install sdf
