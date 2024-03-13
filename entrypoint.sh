@@ -15,6 +15,8 @@ if [[ $input_command == "sdf push"* ]]; then
 fi
 
 if [[ -n $input_is_dbt ]]; then
+  echo "python3 version - $(python3 --version)"
+
   echo "::group::Setting up dbt"
   echo "running dbt deps"
   dbt deps
