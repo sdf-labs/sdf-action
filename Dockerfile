@@ -1,13 +1,10 @@
-FROM rust:1.76.0-bookworm
+FROM python:3.10.13-bookworm
 ARG SDF_VERSION=0.1.170
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
   yq \
   curl \
-  gnupg \
-  python3.10 \
-  python3-pip \
   && rm -rf /var/lib/apt/lists/*
 
 # Install sdf
