@@ -1,7 +1,10 @@
+name: On Pull Request Run Compile
+
 on:
   push:
     branches:
-      - 'main'
+      - main
+  pull_request:
 
 jobs:
   dbt_init_challenge_job:
