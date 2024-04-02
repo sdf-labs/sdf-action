@@ -12,10 +12,10 @@ inputs:
     required: true
   access_key:
     description: "The access key"
-    required: true
+    required: false
   secret_key:
     description: "The secret key"
-    required: true
+    required: false
   is_dbt:
     description: "Whether the workspace is dbt based or not"
     required: true
@@ -41,6 +41,17 @@ inputs:
     description: "The snowflake warehouse"
     required: false
 
+  # required if redshift table provider is used
+  aws_region:
+    description: "The aws region"
+    required: false
+  aws_access_key_id:
+    description: "The aws access key id"
+    required: false
+  aws_secret_access_key:
+    description: "The aws secret access key"
+    required: false
+
 outputs:
   result:
     description: "The result (pass or failed)"
@@ -63,3 +74,7 @@ runs:
     SNOWFLAKE_ROLE: ${{ inputs.snowflake_role }}
     SNOWFLAKE_WAREHOUSE: ${{ inputs.snowflake_warehouse }}
     DBT_TARGET: ${{ inputs.dbt_target }}
+
+    AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
+    AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
+    AWS_DEFAULT_REGION: ${{ inputs.aws_region }}
