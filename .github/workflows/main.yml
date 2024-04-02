@@ -1,4 +1,4 @@
-name: On Pull Request Run Compile
+name: Test sdf-action
 
 on:
   pull_request:
