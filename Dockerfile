@@ -1,5 +1,5 @@
 FROM python:3.12.2-bookworm
-ARG SDF_VERSION=0.1.184
+ARG SDF_VERSION=0.1.192
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
