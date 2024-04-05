@@ -1,4 +1,4 @@
-name: Base Docker Image CI
+name: Base sdf-action Docker Image (DBT based)
 
 on:
   push:
@@ -6,11 +6,9 @@ on:
     paths:
       - 'Dockerfile.base'
   pull_request:
-    branches: [ main ]
     paths:
       - 'Dockerfile.base'
-
-
+      
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,11 +28,20 @@ jobs:
   
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2.2.0
-      
-      - name: Build and push Docker image
+  
+      - name: Build Docker image
+        if: github.event_name == 'pull'
+        run: |
+          docker buildx build \
+            --file Dockerfile.base \
+            --platform linux/amd64,linux/arm64 \
+            --tag ghcr.io/${{ github.repository }}-dbt-base:latest .
+
+      - name: Build and Push Docker image on main branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           docker buildx build \
             --file Dockerfile.base \
             --platform linux/amd64,linux/arm64 \
             --push \
-            --tag ghcr.io/${{ github.repository }}:${{ github.sha }} .
+            --tag ghcr.io/${{ github.repository }}-dbt-base:latest .
