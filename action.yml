@@ -5,11 +5,11 @@ inputs:
   command:
     description: "The sdf command to run"
     default: "sdf compile"
-    required: true
+    required: false
   workspace_dir:
     description: "The directory of the workspace"
     default: "."
-    required: true
+    required: false
   access_key:
     description: "The access key"
     required: false
@@ -18,7 +18,7 @@ inputs:
     required: false
   is_dbt:
     description: "Whether the workspace is dbt based or not"
-    required: true
+    required: false
     default: ""
   dbt_target:
     description: "The dbt target"
