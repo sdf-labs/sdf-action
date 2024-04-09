@@ -1,13 +1,10 @@
 name: Base sdf-action Docker Image (DBT based)
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'Dockerfile.base'
   pull_request:
     paths:
       - 'Dockerfile.base'
+  workflow_dispatch:
       
 jobs:
   build:
@@ -34,14 +31,14 @@ jobs:
         run: |
           docker buildx build \
             --file Dockerfile.base \
-            --platform linux/amd64,linux/arm64 \
-            --tag ghcr.io/${{ github.repository }}-dbt-base:latest .
+            --platform linux/amd64,linux/arm64 .
 
-      - name: Build and Push Docker image on main branch
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Release Docker image
+        if: github.event_name == 'workflow_dispatch'
         run: |
           docker buildx build \
             --file Dockerfile.base \
             --platform linux/amd64,linux/arm64 \
             --push \
-            --tag ghcr.io/${{ github.repository }}-dbt-base:latest .
+            --tag ghcr.io/${{ github.repository }}-dbt-base:latest \
+            --tag ghcr.io/${{ github.repository }}-dbt-base:${{ github.run_number }} .
