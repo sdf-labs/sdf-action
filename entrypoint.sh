@@ -20,7 +20,7 @@ check_exit_status() {
       echo "$command_log"
       echo EOF
     } >>$GITHUB_OUTPUT
-    
+
     echo "result=failed" >>$GITHUB_OUTPUT
     exit $exit_status
   fi
@@ -34,16 +34,14 @@ if [[ $input_command == "sdf push"* ]]; then
 fi
 
 if [[ -n $input_is_dbt ]]; then
-  echo "python3 version - $(python3 --version)"
-
   echo "::group::Setting up dbt"
-  echo "running dbt deps"
-  dbt deps
-  check_exit_status $? ""
+  # echo "running dbt deps"
+  # dbt deps
+  # check_exit_status $? ""
 
-  echo "running dbt compile"
-  dbt compile
-  check_exit_status $? ""
+  # echo "running dbt compile"
+  # dbt compile
+  # check_exit_status $? ""
 
   echo "running dbt compile done"
   sdf dbt refresh
