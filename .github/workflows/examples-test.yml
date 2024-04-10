@@ -68,6 +68,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Run DBT commands
         uses: mwhitaker/dbt-action@master
+        env: 
+          DBT_TARGET: dev
+          SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         with:
           dbt_command: "dbt compile"
           dbt_project_folder: "workspace/dbt_init_challenge"
@@ -80,7 +84,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: sdf
         with:
-          command: 'sdf compile'
+          command: 'sdf compile --profiles-dir .'
           workspace_dir: 'workspace/dbt_init_challenge'
           access_key: ${{ secrets.ACCESS_KEY }}
           secret_key: ${{ secrets.SECRET_KEY }}
