@@ -69,7 +69,7 @@ jobs:
       - name: Run DBT commands
         uses: mwhitaker/dbt-action@master
         with:
-          dbt_command: "dbt deps && dbt compile"
+          dbt_command: "dbt compile"
           dbt_project_folder: "workspace/dbt_init_challenge"
       
       # debug step
