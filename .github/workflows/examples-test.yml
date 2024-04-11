@@ -75,6 +75,7 @@ jobs:
   dbt_init_challenge_v2:
     container:
       image: ghcr.io/dbt-labs/dbt-snowflake:1.5.latest
+      options: --mount type=bind,source=${{ github.workspace }},target=/workspace
       volumes:
         - ${{ github.workspace }}:/workspace/dbt_init_challenge
     runs-on: ubuntu-latest
