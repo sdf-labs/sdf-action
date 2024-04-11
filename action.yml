@@ -1,5 +1,5 @@
 # action.yml
-name: "dbt action"
+name: "sdf action"
 description: "Run sdf cli commands"
 inputs:
   command:
