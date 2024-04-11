@@ -6,7 +6,7 @@ on:
 jobs:
   tpch_redshift:
     runs-on: ubuntu-latest
-    name: Run sdf compile on a Redshift workspace
+    name: Redshift workspace
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
   # dbt_init_challenge_v1 - uses dbt-action
   dbt_init_challenge_v1:
     runs-on: ubuntu-latest
-    name: Run sdf push on a DBT + Snowflake workspace
+    name: Snowflake + dbt workspace - run dbt commands using dbt-action
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
           dbt_command: "dbt compile"
           dbt_project_folder: "workspace/dbt_init_challenge"
 
-      - name: sdf push step
+      - name: sdf compile step
         uses: ./ # Uses an action in the root directory
         id: sdf
         with:
@@ -79,7 +79,7 @@ jobs:
         - ${{ github.workspace }}:/repo
     
     runs-on: ubuntu-latest
-    name: Run dbt commands in a job
+    name: Snowflake + dbt workspace - run dbt commands in a container job
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -97,7 +97,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: sdf
         with:
-          command: 'sdf compile'
+          command: 'sdf push'
           workspace_dir: ${{ github.workspace }}/workspace/dbt_init_challenge
           access_key: ${{ secrets.ACCESS_KEY }}
           secret_key: ${{ secrets.SECRET_KEY }}
