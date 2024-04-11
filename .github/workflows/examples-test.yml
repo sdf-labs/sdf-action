@@ -101,7 +101,7 @@ jobs:
         id: sdf
         with:
           command: 'sdf compile'
-          workspace_dir: ${{ github.workspace }}/dbt_init_challenge
+          workspace_dir: ${{ github.workspace }}/workspace/dbt_init_challenge
           access_key: ${{ secrets.ACCESS_KEY }}
           secret_key: ${{ secrets.SECRET_KEY }}
 
