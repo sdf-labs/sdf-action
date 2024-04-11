@@ -76,7 +76,7 @@ jobs:
     container:
       image: ghcr.io/dbt-labs/dbt-snowflake:1.5.latest
       volumes:
-        - ${{ github.workspace }}:/workspace/dbt_init_challenge
+        - dbt-volume:${{ github.workspace }}/dbt_init_challenge/target
     runs-on: ubuntu-latest
     name: Run dbt commands in a job
     steps:
@@ -94,13 +94,14 @@ jobs:
           dbt compile
       - name: List target files
         run: |
-          ls -l workspace/dbt_init_challenge/target
+          echo "path - ${{ github.workspace }}/dbt_init_challenge/target"
+          ls -l ${{ github.workspace }}/dbt_init_challenge/target
       - name: sdf push step
         uses: ./ # Uses an action in the root directory
         id: sdf
         with:
           command: 'sdf compile'
-          workspace_dir: 'workspace/dbt_init_challenge'
+          workspace_dir: ${{ github.workspace }}/dbt_init_challenge
           access_key: ${{ secrets.ACCESS_KEY }}
           secret_key: ${{ secrets.SECRET_KEY }}
 
