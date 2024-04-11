@@ -35,14 +35,6 @@ fi
 
 if [[ -n $input_is_dbt ]]; then
   echo "::group::Setting up dbt"
-  # echo "running dbt deps"
-  # dbt deps
-  # check_exit_status $? ""
-
-  # echo "running dbt compile"
-  # dbt compile
-  # check_exit_status $? ""
-
   echo "running dbt compile done"
   sdf dbt refresh
   echo "::endgroup::"
