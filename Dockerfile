@@ -3,7 +3,6 @@ ARG SDF_VERSION=0.2.1
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    yq \
     curl \
     && rm -rf /var/lib/apt/lists/*
 

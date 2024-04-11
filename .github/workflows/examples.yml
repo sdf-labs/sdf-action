@@ -47,7 +47,7 @@ jobs:
           dbt_command: "dbt compile"
           dbt_project_folder: "workspace/dbt_init_challenge"
 
-      - name: sdf push step
+      - name: Run sdf compile
         uses: ./ # Uses an action in the root directory
         id: sdf
         with:
@@ -93,7 +93,7 @@ jobs:
           cd /repo/workspace/dbt_init_challenge
           dbt deps
           dbt compile
-      - name: sdf push step
+      - name: Run sdf push
         uses: ./ # Uses an action in the root directory
         id: sdf
         with:
