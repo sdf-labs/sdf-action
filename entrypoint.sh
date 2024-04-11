@@ -1,7 +1,5 @@
 #!/bin/bash -l
 
-source /.venv/bin/activate
-
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
 
