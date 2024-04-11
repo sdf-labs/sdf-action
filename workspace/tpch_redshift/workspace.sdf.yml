@@ -1,14 +1,16 @@
 workspace:
-  edition: "1.1"
+  edition: "1.2"
   name: "tpch"
-  default-catalog: sample_data_dev
-  default-schema: tpch
-  compute: "local"
+  defaults:
+    environment: dbg
+    dialect: redshift
+    catalog: sample_data_dev
+    schema: tpch
+    compute: "local"
   includes:
     - path: queries/
----
-provider:
-  type: redshift
-  cluster-identifier: sdf-cli-tests
-  sources:
-    - sample_data_dev
+  providers:
+    - type: redshift
+      cluster-identifier: sdf-cli-tests
+      namespaces:
+        - target: sample_data_dev.*.*
