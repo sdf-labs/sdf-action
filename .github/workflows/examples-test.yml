@@ -93,9 +93,9 @@ jobs:
           cd /repo/workspace/dbt_init_challenge
           dbt deps
           dbt compile
-      - name: List target sdf models
+      - name: List target files
         run: |
-          ls -l ./target/compiled/sdf/models
+          ls -l /repo/workspace/dbt_init_challenge/target
       - name: sdf push step
         uses: ./ # Uses an action in the root directory
         id: sdf
