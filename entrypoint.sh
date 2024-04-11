@@ -1,6 +1,7 @@
 #!/bin/bash -l
 
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
+ls -l .
 cd ${WORKSPACE_DIR}
 
 input_command=$1
