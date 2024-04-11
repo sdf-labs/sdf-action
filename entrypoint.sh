@@ -2,7 +2,9 @@
 
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
-ls -l .
+
+echo "ls -l ./target"
+ls -l ./target
 
 input_command=$1
 input_is_dbt=$2
