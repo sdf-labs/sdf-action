@@ -3,9 +3,6 @@
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
 
-echo "ls -l ./target"
-ls -l ./target/
-
 input_command=$1
 input_is_dbt=$2
 
@@ -36,11 +33,7 @@ fi
 
 if [[ -n $input_is_dbt ]]; then
   echo "::group::Setting up dbt"
-  echo "running dbt compile done"
   sdf dbt refresh
-
-  echo "ls -l ./target"
-  ls -l ./target/
   echo "::endgroup::"
   check_exit_status $? ""
 fi

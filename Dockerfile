@@ -8,9 +8,13 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install sdf
-RUN curl -LSfs https://cdn.sdf.com/releases/download/install.sh | bash -s -- --version ${SDF_VERSION}
+RUN if [ "$(uname -m)" = "aarch64" ]; then \
+    curl -LSfs https://cdn.sdf.com/releases/download/install.sh | bash -s -- --version ${SDF_VERSION} --target aarch64-unknown-linux-gnu ; \
+    else \
+    curl -LSfs https://cdn.sdf.com/releases/download/install.sh | bash -s -- --version ${SDF_VERSION} ; \
+    fi
+# replace above with a pre-built image?
 
-# Copy your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
 
 # Set the code file as the entry point

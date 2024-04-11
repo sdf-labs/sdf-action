@@ -2,7 +2,7 @@
 Github Action to run `sdf` CLI in workflows.
 
 ## Usage
-Check out this [example workflow](./.github/workflows/examples-test.yml) to see how to use this action.
+Check out this [example workflow](./.github/workflows/examples.yml) to see how to use this action.
 
 ## Parameters
 
