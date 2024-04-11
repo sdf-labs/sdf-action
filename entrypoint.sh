@@ -4,7 +4,7 @@ echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
 
 echo "ls -l ./target"
-ls -l ./target
+ls -l ./target/compiled/sdf/models
 
 input_command=$1
 input_is_dbt=$2

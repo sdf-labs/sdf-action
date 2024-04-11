@@ -20,6 +20,10 @@ inputs:
     description: "Whether the workspace is dbt based or not"
     required: false
     default: ""
+  dbt_target:
+    description: "The dbt target"
+    required: false
+    default: "dev"
 
   # required if snowflake table provider is used
   snowflake_account_id:
