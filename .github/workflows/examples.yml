@@ -40,6 +40,8 @@ jobs:
       - name: Run DBT commands
         uses: mwhitaker/dbt-action@master
         env: 
+          CATALOG: dbt_hol_dev
+          SCHEMA: public
           DBT_TARGET: dev
           SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
@@ -86,6 +88,8 @@ jobs:
 
       - name: Run DBT commands
         env:
+          CATALOG: dbt_hol_dev
+          SCHEMA: public
           DBT_TARGET: dev
           SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}

@@ -11,5 +11,5 @@ workspace:
   defaults:
     environment: dbg
     dialect: snowflake
-    catalog: dbt_hol_dev
-    schema: public
+    catalog: "${{ env_var('CATALOG') }}"
+    schema: "${{ env_var('SCHEMA') }}"
