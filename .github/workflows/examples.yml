@@ -40,8 +40,6 @@ jobs:
       - name: Run DBT commands
         uses: mwhitaker/dbt-action@master
         env: 
-          CATALOG: dbt_hol_dev
-          SCHEMA: public
           DBT_TARGET: dev
           SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
@@ -52,6 +50,9 @@ jobs:
       - name: Run sdf compile
         uses: ./ # Uses an action in the root directory
         id: sdf
+        env:
+          CATALOG: dbt_hol_dev
+          SCHEMA: public
         with:
           command: 'sdf compile'
           workspace_dir: 'workspace/dbt_init_challenge'
@@ -88,8 +89,6 @@ jobs:
 
       - name: Run DBT commands
         env:
-          CATALOG: dbt_hol_dev
-          SCHEMA: public
           DBT_TARGET: dev
           SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
@@ -100,6 +99,9 @@ jobs:
       - name: Run sdf push
         uses: ./ # Uses an action in the root directory
         id: sdf
+        env:
+          CATALOG: dbt_hol_dev
+          SCHEMA: public
         with:
           command: 'sdf push'
           # relative path to ${{ github.workspace }} which is automatically mounted by GitHub Actions
