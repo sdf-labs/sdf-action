@@ -1,10 +1,51 @@
 #!/bin/bash -l
 
-echo "workspace dir set as: \"${WORKSPACE_DIR}\""
-cd ${WORKSPACE_DIR}
-
 input_command=$1
 input_is_dbt=$2
+sdf_version=$3
+
+is_less_semvar() {
+  # split the version strings into arrays
+  IFS='.' read -ra version1 <<<"$1"
+  IFS='.' read -ra version2 <<<"$2"
+
+  i=0
+  while true; do
+    v1="${version1[$i]:-0}"
+    v2="${version2[$i]:-0}"
+
+    # compare numerically
+    if ((v1 < v2)); then
+      echo 1
+      return
+    elif ((v1 > v2)); then
+      echo 0
+      return
+    fi
+    ((i++))
+
+    # run out of components to compare
+    if [[ -z "${version1[$i]}" && -z "${version2[$i]}" ]]; then
+      echo 0
+      return
+    fi
+  done
+}
+
+min_version=$(curl https://api.sdf.com/api/v2/public.minVersion | jq -r '.result.data.json')
+if [[ $(is_less_semvar $sdf_version $min_version) -eq 1 ]]; then
+  echo "The input SDF CLI version is lower than the minimum required version: $min_version"
+  exit 1
+fi
+
+if [ "$(uname -m)" = "aarch64" ]; then
+  curl -LSfs https://cdn.sdf.com/releases/download/install.sh | bash -s -- --version ${sdf_version} --target aarch64-unknown-linux-gnu
+else
+  curl -LSfs https://cdn.sdf.com/releases/download/install.sh | bash -s -- --version ${sdf_version}
+fi
+
+echo "workspace dir set as: \"${WORKSPACE_DIR}\""
+cd ${WORKSPACE_DIR}
 
 check_exit_status() {
   exit_status=$1

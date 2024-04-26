@@ -12,6 +12,7 @@ Check out this [example workflow](./.github/workflows/examples.yml) to see how t
 
 | Parameter | Description | Required | Default |
 | --- | --- | --- | --- |
+| `sdf_version` | SDF CLI version | No | `"0.2.10"`
 | `command` | The `sdf` CLI command to run. | No | `sdf compile`
 | `workspace_dir` | The directory of the workspace  | No | `"."` |
 | `access_key` | access key created from the [console](https://console.sdf.com/catalog/settings/general) to be used in `sdf push`  | No | |

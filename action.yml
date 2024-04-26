@@ -2,6 +2,10 @@
 name: "sdf action"
 description: "Run sdf cli commands"
 inputs:
+  sdf_version:
+    description: "The version of the sdf cli"
+    default: "0.2.10"
+    required: false
   command:
     description: "The sdf command to run"
     default: "sdf compile"
@@ -64,6 +68,7 @@ runs:
   args:
     - ${{ inputs.command }}
     - ${{ inputs.is_dbt }}
+    - ${{ inputs.sdf_version }}
   env:
     WORKSPACE_DIR: ${{ inputs.workspace_dir }}
     ACCESS_KEY: ${{ inputs.access_key }}
