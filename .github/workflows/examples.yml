@@ -25,7 +25,7 @@ jobs:
           dbt_project_folder: "workspace/dbt_init_challenge"
 
       - name: Run sdf compile
-        uses: sdf-labs/sdf-action@0.0.1 # Uses an action in the root directory
+        uses: sdf-labs/sdf-action@main # Uses an action in the root directory
         id: sdf
         env:
           CATALOG: dbt_hol_dev
@@ -62,7 +62,7 @@ jobs:
     name: Snowflake + dbt workspace - run dbt commands in a container job
     steps:
       - name: Checkout
-        uses: sdf-labs/sdf-action@0.0.1
+        uses: sdf-labs/sdf-action@main
 
       - name: Run DBT commands
         env:
