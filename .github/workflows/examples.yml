@@ -6,13 +6,13 @@ on:
       - test_public_action
 
 jobs:
-  # dbt_init_challenge_v1 - uses dbt-action
   dbt_init_challenge_v1:
     runs-on: ubuntu-latest
     name: Snowflake + dbt workspace - run dbt commands using dbt-action
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
         
       - name: Run DBT commands
         uses: mwhitaker/dbt-action@master
