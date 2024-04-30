@@ -3,7 +3,7 @@ name: Test sdf-action
 on:
   push:
     branches:
-      - test_public_action
+      - harry/test_public_action
 
 jobs:
   dbt_init_challenge_v1:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
         
       - name: Run DBT commands
         uses: mwhitaker/dbt-action@master
