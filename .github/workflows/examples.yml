@@ -31,6 +31,7 @@ jobs:
           CATALOG: dbt_hol_dev
           SCHEMA: public
         with:
+          sdf_version: 'v0.1.183'
           command: 'sdf compile'
           workspace_dir: 'workspace/dbt_init_challenge'
           access_key: ${{ secrets.ACCESS_KEY }}
@@ -80,6 +81,7 @@ jobs:
           CATALOG: dbt_hol_dev
           SCHEMA: public
         with:
+          sdf_version: 'v0.2.16'
           command: 'sdf push'
           # relative path to ${{ github.workspace }} which is automatically mounted by GitHub Actions
           workspace_dir: workspace/dbt_init_challenge
