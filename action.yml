@@ -1,15 +1,19 @@
 # action.yml
-name: "dbt action"
+name: "sdf action"
 description: "Run sdf cli commands"
 inputs:
+  sdf_version:
+    description: "The version of the sdf cli"
+    default: "0.2.10"
+    required: false
   command:
     description: "The sdf command to run"
     default: "sdf compile"
-    required: true
+    required: false
   workspace_dir:
     description: "The directory of the workspace"
     default: "."
-    required: true
+    required: false
   access_key:
     description: "The access key"
     required: false
@@ -18,11 +22,12 @@ inputs:
     required: false
   is_dbt:
     description: "Whether the workspace is dbt based or not"
-    required: true
+    required: false
     default: ""
   dbt_target:
     description: "The dbt target"
     required: false
+    default: "dev"
 
   # required if snowflake table provider is used
   snowflake_account_id:
@@ -63,6 +68,7 @@ runs:
   args:
     - ${{ inputs.command }}
     - ${{ inputs.is_dbt }}
+    - ${{ inputs.sdf_version }}
   env:
     WORKSPACE_DIR: ${{ inputs.workspace_dir }}
     ACCESS_KEY: ${{ inputs.access_key }}
