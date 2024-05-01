@@ -79,6 +79,14 @@ if [[ -n $input_is_dbt ]]; then
   check_exit_status $? ""
 fi
 
+if [ -z "${SNOWFLAKE_ACCOUNT_ID+x}" ]; then
+  echo "snowflake provider used: running 'sdf auth login'"
+  sdf auth login snowflake \
+    --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
+    --role "${SNOWFLAKE_ROLE}" --warehouse "${SNOWFLAKE_WAREHOUSE}"
+  check_exit_status $? ""
+fi
+
 # run and save outputs
 echo "running command: $input_command"
 log=$($input_command 2>&1)
