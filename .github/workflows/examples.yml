@@ -1,115 +1,149 @@
 name: Test sdf-action
 
 on:
-  pull_request:
+  push:
+    branches:
+      - harry/add_back_snowflake_auth
 
 jobs:
-  tpch_redshift:
-    runs-on: ubuntu-latest
-    name: Redshift workspace
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: sdf compile step
-        uses: ./ # Uses an action in the root directory
-        id: sdf
-        with:
-          command: 'sdf compile --show all'
-          workspace_dir: 'workspace/tpch_redshift'
+  # tpch_redshift:
+  #   runs-on: ubuntu-latest
+  #   name: Redshift workspace
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #     - name: sdf compile step
+  #       uses: ./ # Uses an action in the root directory
+  #       id: sdf
+  #       with:
+  #         command: 'sdf compile --show all'
+  #         workspace_dir: 'workspace/tpch_redshift'
 
-          aws_region: 'us-west-2'
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws_region: 'us-west-2'
+  #         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # Use the output from the `sdf` step
-      - name: Display the sdf output
-        run: |
-          echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
-          echo '```' >>$GITHUB_STEP_SUMMARY
-          echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
-          echo '```' >>$GITHUB_STEP_SUMMARY
+  #     # Use the output from the `sdf` step
+  #     - name: Display the sdf output
+  #       run: |
+  #         echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
+  #         echo '```' >>$GITHUB_STEP_SUMMARY
+  #         echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
+  #         echo '```' >>$GITHUB_STEP_SUMMARY
   
-  # dbt_init_challenge_v1 - uses dbt-action
-  dbt_init_challenge_v1:
-    runs-on: ubuntu-latest
-    name: Snowflake + dbt workspace - run dbt commands using dbt-action
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # # dbt_init_challenge_v1 - uses dbt-action
+  # dbt_init_challenge_v1:
+  #   runs-on: ubuntu-latest
+  #   name: Snowflake + dbt workspace - run dbt commands using dbt-action
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
         
-      - name: Run DBT commands
-        uses: mwhitaker/dbt-action@master
-        env: 
-          DBT_TARGET: dev
-          SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-        with:
-          dbt_command: "dbt compile"
-          dbt_project_folder: "workspace/dbt_init_challenge"
+  #     - name: Run DBT commands
+  #       uses: mwhitaker/dbt-action@master
+  #       env: 
+  #         DBT_TARGET: dev
+  #         SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+  #         SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+  #       with:
+  #         dbt_command: "dbt compile"
+  #         dbt_project_folder: "workspace/dbt_init_challenge"
 
-      - name: Run sdf compile
-        uses: ./ # Uses an action in the root directory
-        id: sdf
-        env:
-          CATALOG: dbt_hol_dev
-          SCHEMA: public
-        with:
-          command: 'sdf compile'
-          workspace_dir: 'workspace/dbt_init_challenge'
-          access_key: ${{ secrets.ACCESS_KEY }}
-          secret_key: ${{ secrets.SECRET_KEY }}
+  #     - name: Run sdf compile
+  #       uses: ./ # Uses an action in the root directory
+  #       id: sdf
+  #       env:
+  #         CATALOG: dbt_hol_dev
+  #         SCHEMA: public
+  #       with:
+  #         command: 'sdf compile'
+  #         workspace_dir: 'workspace/dbt_init_challenge'
+  #         access_key: ${{ secrets.ACCESS_KEY }}
+  #         secret_key: ${{ secrets.SECRET_KEY }}
 
-          is_dbt: 'true'
-          snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
-          snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
-          snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          snowflake_role: 'dbt_test_role'
-          snowflake_warehouse: 'dbt_dev_wh'
+  #         is_dbt: 'true'
+  #         snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+  #         snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
+  #         snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+  #         snowflake_role: 'dbt_test_role'
+  #         snowflake_warehouse: 'dbt_dev_wh'
 
-      # Use the output from the `sdf` step
-      - name: Display the sdf output
-        run: |
-          echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
-          echo '```' >>$GITHUB_STEP_SUMMARY
-          echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
-          echo '```' >>$GITHUB_STEP_SUMMARY
+  #     # Use the output from the `sdf` step
+  #     - name: Display the sdf output
+  #       run: |
+  #         echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
+  #         echo '```' >>$GITHUB_STEP_SUMMARY
+  #         echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
+  #         echo '```' >>$GITHUB_STEP_SUMMARY
 
-  # dbt_init_challenge_v2: rus dbt commands in a container job
-  dbt_init_challenge_v2:
-    container:
-      image: ghcr.io/dbt-labs/dbt-snowflake:1.5.latest
-      volumes:
-        - ${{ github.workspace }}:/repo
+  # # dbt_init_challenge_v2: rus dbt commands in a container job
+  # dbt_init_challenge_v2:
+  #   container:
+  #     image: ghcr.io/dbt-labs/dbt-snowflake:1.5.latest
+  #     volumes:
+  #       - ${{ github.workspace }}:/repo
     
+  #   runs-on: ubuntu-latest
+  #   name: Snowflake + dbt workspace - run dbt commands in a container job
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     - name: Run DBT commands
+  #       env:
+  #         DBT_TARGET: dev
+  #         SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+  #         SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+  #       run: |
+  #         cd /repo/workspace/dbt_init_challenge
+  #         dbt deps
+  #         dbt compile
+  #     - name: Run sdf push
+  #       uses: ./ # Uses an action in the root directory
+  #       id: sdf
+  #       env:
+  #         CATALOG: dbt_hol_dev
+  #         SCHEMA: public
+  #       with:
+  #         command: 'sdf push'
+  #         # relative path to ${{ github.workspace }} which is automatically mounted by GitHub Actions
+  #         workspace_dir: workspace/dbt_init_challenge
+  #         access_key: ${{ secrets.ACCESS_KEY }}
+  #         secret_key: ${{ secrets.SECRET_KEY }}
+
+  #         is_dbt: 'true'
+  #         snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+  #         snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
+  #         snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+  #         snowflake_role: 'dbt_test_role'
+  #         snowflake_warehouse: 'dbt_dev_wh'
+  
+  #     # Use the output from the `sdf` step
+  #     - name: Display the sdf output
+  #       run: |
+  #         echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
+  #         echo '```' >>$GITHUB_STEP_SUMMARY
+  #         echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
+  #         echo '```' >>$GITHUB_STEP_SUMMARY
+
+
+  # a pure snowflake workspace
+  snowflake:
     runs-on: ubuntu-latest
     name: Snowflake + dbt workspace - run dbt commands in a container job
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run DBT commands
-        env:
-          DBT_TARGET: dev
-          SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-        run: |
-          cd /repo/workspace/dbt_init_challenge
-          dbt deps
-          dbt compile
-      - name: Run sdf push
+      - name: Run sdf compile
         uses: ./ # Uses an action in the root directory
         id: sdf
-        env:
-          CATALOG: dbt_hol_dev
-          SCHEMA: public
         with:
-          command: 'sdf push'
+          command: 'sdf compile'
           # relative path to ${{ github.workspace }} which is automatically mounted by GitHub Actions
-          workspace_dir: workspace/dbt_init_challenge
-          access_key: ${{ secrets.ACCESS_KEY }}
-          secret_key: ${{ secrets.SECRET_KEY }}
+          workspace_dir: workspace/snowflake
 
-          is_dbt: 'true'
+          snowflake_provider: 'true'
           snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
           snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
@@ -123,4 +157,3 @@ jobs:
           echo '```' >>$GITHUB_STEP_SUMMARY
           echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
           echo '```' >>$GITHUB_STEP_SUMMARY
-

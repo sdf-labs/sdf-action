@@ -3,6 +3,7 @@
 input_command=$1
 input_is_dbt=$2
 sdf_version=$3
+snowflake_provider=$4
 
 is_less_semvar() {
   # split the version strings into arrays
@@ -69,6 +70,14 @@ check_exit_status() {
 if [[ $input_command == "sdf push"* ]]; then
   echo "'sdf push' runs 'sdf auth login' using headless credentials"
   sdf auth login --access-key "${ACCESS_KEY}" --secret-key "${SECRET_KEY}"
+  check_exit_status $? ""
+fi
+
+if [[ -n $snowflake_provider ]]; then
+  echo "snowflake provider used: running 'sdf auth login'"
+  sdf auth login snowflake \
+    --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
+    --role "${SNOWFLAKE_ROLE}" --warehouse "${SNOWFLAKE_WAREHOUSE}"
   check_exit_status $? ""
 fi
 

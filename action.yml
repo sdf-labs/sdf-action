@@ -30,6 +30,10 @@ inputs:
     default: "dev"
 
   # required if snowflake table provider is used
+  snowflake_provider:
+    description: "The snowflake provider"
+    default: ""
+    required: false
   snowflake_account_id:
     description: "The snowflake account id"
     required: false
@@ -69,6 +73,7 @@ runs:
     - ${{ inputs.command }}
     - ${{ inputs.is_dbt }}
     - ${{ inputs.sdf_version }}
+    - ${{ inputs.snowflake_provider }}
   env:
     WORKSPACE_DIR: ${{ inputs.workspace_dir }}
     ACCESS_KEY: ${{ inputs.access_key }}

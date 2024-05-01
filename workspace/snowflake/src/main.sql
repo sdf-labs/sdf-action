@@ -1,0 +1,1 @@
+select * from apress.public.big_customers;

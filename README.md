@@ -19,6 +19,7 @@ Check out this [example workflow](./.github/workflows/examples.yml) to see how t
 | `secret_key` | secret key created from the [console](https://console.sdf.com/catalog/settings/general) to be used in `sdf push` | No | |
 | `is_dbt` | Set to a non-empty string if the workspace is dbt based | No | `""` | |
 | `dbt_target` | The dbt target | No | `"dev"` |
+| `snowflake_provider` | Uses a snowflake provider or not | No | `""` |
 | `snowflake_account_id` | The snowflake account | No | | 
 | `snowflake_username` | The snowflake username | No | |
 | `snowflake_password` | The snowflake password | No | |
