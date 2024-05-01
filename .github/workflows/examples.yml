@@ -143,7 +143,7 @@ jobs:
         with:
           command: 'sdf compile'
           # relative path to ${{ github.workspace }} which is automatically mounted by GitHub Actions
-          workspace_dir: workspace/dbt_init_challenge
+          workspace_dir: workspace/snowflake
           access_key: ${{ secrets.ACCESS_KEY }}
           secret_key: ${{ secrets.SECRET_KEY }}
 
