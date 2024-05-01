@@ -143,7 +143,6 @@ jobs:
           # relative path to ${{ github.workspace }} which is automatically mounted by GitHub Actions
           workspace_dir: workspace/snowflake
 
-          snowflake_provider: 'true'
           snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
           snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}

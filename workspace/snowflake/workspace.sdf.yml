@@ -9,4 +9,4 @@ workspace:
   providers:
     - type: snowflake
       sources:
-        - pattern: apress.*.*
+        - pattern: dbt_hol_dev.public.*

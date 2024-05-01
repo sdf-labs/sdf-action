@@ -1,1 +1,1 @@
-select * from apress.public.big_customers;
+select * from dbt_hol_dev.public.large_renter_occupied_units
