@@ -79,7 +79,7 @@ if [[ -n $input_is_dbt ]]; then
   check_exit_status $? ""
 fi
 
-if [ -z "${SNOWFLAKE_ACCOUNT_ID+x}" ]; then
+if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
   echo "snowflake provider used: running 'sdf auth login'"
   sdf auth login snowflake \
     --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
