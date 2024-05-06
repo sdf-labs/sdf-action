@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  create_release:
+    # release if
+    # manual deployment OR
+    # merged to main and labelled with release labels
+    if: |
+      (github.event_name == 'workflow_dispatch') ||
+      (github.event.pull_request.merged == true &&
+      (contains(github.event.pull_request.labels.*.name, 'breaking') ||
+      contains(github.event.pull_request.labels.*.name, 'enhancement') ||
+      contains(github.event.pull_request.labels.*.name, 'release')))
+    outputs:
+      full-tag: ${{ steps.release-drafter.outputs.tag_name }}
+      short-tag: ${{ steps.get_tag_name.outputs.SHORT_TAG }}
+      body: ${{ steps.release-drafter.outputs.body }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      - uses: release-drafter/release-drafter@v6
+        id: release-drafter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          config-name: release-drafter.yml
+          publish: true
+      - name: Get the short tag
+        id: get_tag_name
+        run: |
+          short_tag=$(echo ${{ steps.release-drafter.outputs.tag_name }} | cut -d. -f1)
+          echo "SHORT_TAG=$short_tag" >> $GITHUB_OUTPUT

@@ -132,7 +132,7 @@ jobs:
         - ${{ github.workspace }}:/repo
     
     runs-on: ubuntu-latest
-    name: Snowflake workspace - run dbt commands in a container job
+    name: Snowflake workspace
     steps:
       - name: Checkout
         uses: actions/checkout@v4
