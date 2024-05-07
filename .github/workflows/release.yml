@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   create_release:
-    # release from manual trigger or PRs merged into main with breaking, enhancement or release label
+    # release from manual trigger or PRs merged into main with breaking, enhancement, fix or release label
     if: |
       (github.event_name == 'workflow_dispatch') ||
       (github.event.pull_request.merged == true &&
@@ -20,10 +20,6 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'enhancement') ||
       contains(github.event.pull_request.labels.*.name, 'fix') ||
       contains(github.event.pull_request.labels.*.name, 'release')))
-    outputs:
-      full-tag: ${{ steps.release-drafter.outputs.tag_name }}
-      short-tag: ${{ steps.get_tag_name.outputs.SHORT_TAG }}
-      body: ${{ steps.release-drafter.outputs.body }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -50,7 +46,6 @@ jobs:
         id: version
         run: |
           tag=${{ steps.get_tag_name.outputs.SHORT_TAG }}
-          echo ${tag}
           version=${tag#v}
           major=${version%%.*}
           echo "major=${major}" >> "$GITHUB_OUTPUT"
