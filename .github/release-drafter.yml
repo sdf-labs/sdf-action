@@ -34,7 +34,6 @@ version-resolver:
   minor:
     labels:
       - "enhancement"
-      - "fix"
   patch:
     labels:
       - "documentation"
