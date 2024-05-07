@@ -25,7 +25,7 @@ jobs:
           dbt_project_folder: "workspace/dbt_init_challenge"
 
       - name: Run sdf compile
-        uses: sdf-labs/sdf-action@v0.0.1 # Uses an action in the root directory
+        uses: sdf-labs/sdf-action@v0 # Uses an action in the root directory
         id: sdf
         env:
           CATALOG: dbt_hol_dev
@@ -75,7 +75,7 @@ jobs:
           dbt deps
           dbt compile
       - name: Run sdf push
-        uses: sdf-labs/sdf-action@v0.0.1 # Uses an action in the root directory
+        uses: sdf-labs/sdf-action@v0 # Uses an action in the root directory
         id: sdf
         env:
           CATALOG: dbt_hol_dev
@@ -103,3 +103,39 @@ jobs:
           echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
           echo '```' >>$GITHUB_STEP_SUMMARY
 
+
+  snowflake:
+    container:
+      image: ghcr.io/dbt-labs/dbt-snowflake:1.5.latest
+      volumes:
+        - ${{ github.workspace }}:/repo
+    
+    runs-on: ubuntu-latest
+    name: Snowflake workspace
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run sdf compile
+        uses: sdf-labs/sdf-action@v0 # Uses an action in the root directory
+        id: sdf
+        with:
+          command: 'sdf compile'
+          # relative path to ${{ github.workspace }} which is automatically mounted by GitHub Actions
+          workspace_dir: workspace/snowflake
+          access_key: ${{ secrets.ACCESS_KEY }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+
+          snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+          snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
+          snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          snowflake_role: 'dbt_test_role'
+          snowflake_warehouse: 'dbt_dev_wh'
+  
+      # Use the output from the `sdf` step
+      - name: Display the sdf output
+        run: |
+          echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
+          echo '```' >>$GITHUB_STEP_SUMMARY
+          echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
+          echo '```' >>$GITHUB_STEP_SUMMARY
