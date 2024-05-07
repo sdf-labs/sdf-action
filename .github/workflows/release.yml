@@ -3,20 +3,19 @@ name: Release
 on:
   workflow_dispatch:
   pull_request:
-    branches:
-      - main
+    types:
+      - closed
 
 permissions:
   contents: read
 
 jobs:
   create_release:
-    # release if
-    # manual deployment OR
-    # merged to main and labelled with release labels
+    # release from manual trigger or PRs merged into main with breaking, enhancement or release label
     if: |
       (github.event_name == 'workflow_dispatch') ||
       (github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
       (contains(github.event.pull_request.labels.*.name, 'breaking') ||
       contains(github.event.pull_request.labels.*.name, 'enhancement') ||
       contains(github.event.pull_request.labels.*.name, 'release')))
@@ -36,8 +35,26 @@ jobs:
         with:
           config-name: release-drafter.yml
           publish: true
+
       - name: Get the short tag
         id: get_tag_name
         run: |
           short_tag=$(echo ${{ steps.release-drafter.outputs.tag_name }} | cut -d. -f1)
           echo "SHORT_TAG=$short_tag" >> $GITHUB_OUTPUT
+
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Fetch the major version
+        id: version
+        run: |
+          tag=${{ steps.get_tag_name.outputs.SHORT_TAG }}
+          echo ${tag}
+          version=${tag#v}
+          major=${version%%.*}
+          echo "major=${major}" >> "$GITHUB_OUTPUT"
+
+      - name: Force update the major tag
+        run: |
+          git tag v${{ steps.version.outputs.major }}
+          git push origin refs/tags/v${{ steps.version.outputs.major }} -f
