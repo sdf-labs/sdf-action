@@ -24,10 +24,6 @@ inputs:
     description: "Whether the workspace is dbt based or not"
     required: false
     default: ""
-  dbt_target:
-    description: "The dbt target"
-    required: false
-    default: "dev"
 
   # required if snowflake table provider is used
   snowflake_account_id:
@@ -79,7 +75,6 @@ runs:
     SNOWFLAKE_PASSWORD: ${{ inputs.snowflake_password }}
     SNOWFLAKE_ROLE: ${{ inputs.snowflake_role }}
     SNOWFLAKE_WAREHOUSE: ${{ inputs.snowflake_warehouse }}
-    DBT_TARGET: ${{ inputs.dbt_target }}
 
     AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
     AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
