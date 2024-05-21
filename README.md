@@ -62,9 +62,9 @@ Check out this [example workflow](./.github/workflows/examples.yml) to see how t
 
 # Scenarios
 
-[Run Compile on PR](#run-compile-on-pr-creation-and-update)
-[Run Checks on PR with Snowflake Provider](#run-compile-on-pr-creation-and-update-with-a-snowflake-provider)
-[Push to SDF Cloud on Merge to Main](#push-to-sdf-cloud-on-merge-to-main-with-a-redshift-provider)
+** [Run Compile on PR](#run-compile-on-pr-creation-and-update)
+** [Run Checks on PR with Snowflake Provider](#run-compile-on-pr-creation-and-update-with-a-snowflake-provider)
+** [Push to SDF Cloud on Merge to Main](#push-to-sdf-cloud-on-merge-to-main-with-a-redshift-provider)
 
 
 ## Run Compile on PR Creation and Update
