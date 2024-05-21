@@ -1,3 +1,6 @@
+[![SDF + Snowflake / Redshift / DBT Tests](https://github.com/sdf-labs/sdf-action/actions/workflows/examples.yml/badge.svg)](https://github.com/sdf-labs/sdf-action/actions/workflows/examples.yml)
+
+
 # Official SDF GitHub Action
 
 This action is used to run SDF in CI/CD workflows with GitHub Actions. A common use case would be to run an impact analysis with `sdf compile` and `sdf check` on PR creation. 
