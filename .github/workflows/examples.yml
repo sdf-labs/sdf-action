@@ -54,6 +54,7 @@ jobs:
         env:
           CATALOG: dbt_hol_dev
           SCHEMA: public
+          DBT_TARGET: dev
         with:
           command: 'sdf compile'
           workspace_dir: 'workspace/dbt_init_challenge'
@@ -103,6 +104,7 @@ jobs:
         env:
           CATALOG: dbt_hol_dev
           SCHEMA: public
+          DBT_TARGET: dev
         with:
           command: 'sdf push'
           # relative path to ${{ github.workspace }} which is automatically mounted by GitHub Actions
