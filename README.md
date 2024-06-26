@@ -17,8 +17,9 @@ Check out this [example workflow](./.github/workflows/examples.yml) to see how t
 - uses: sdf-labs/sdf-action@v0
   with:
     # The version of SDF to use in the GitHub action.
-    # This should match the version of SDF you use locally in development.
-    sdf_version: '0.3.0'
+    # it default to use the latest version
+    # or you should specify a version that matches the version of SDF you use locally in development.
+    sdf_version: 'latest'
 
     # The SDF command to run. The exit code of this command is used to determine
     # success or failure of the action.
@@ -78,7 +79,7 @@ on:
 ...
     - uses: sdf-labs/sdf-action@v0
       with:
-        sdf_version: '0.3.0'
+        sdf_version: 'latest'
         command: 'sdf compile'
 ```
 
@@ -90,7 +91,7 @@ on:
 ...
     - uses: sdf-labs/sdf-action@v0
       with:
-        sdf_version: '0.3.0'
+        sdf_version: 'latest'
         command: 'sdf check'
         snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
         snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
@@ -111,7 +112,7 @@ on:
 ...
     - uses: sdf-labs/sdf-action@v0
       with:
-        sdf_version: '0.3.0'
+        sdf_version: 'latest'
         command: 'sdf push -y'
         workspace_dir: './my_sdf_workspace/'
         access_key: ${{ secrets.SDF_ACCESS_KEY }}
@@ -129,7 +130,7 @@ on:
 
 | Parameter | Description | Required | Default |
 | --- | --- | --- | --- |
-| `sdf_version` | SDF CLI version | No | `"0.2.10"`
+| `sdf_version` | SDF CLI version | No | `"latest"`
 | `command` | The `sdf` CLI command to run. | No | `sdf compile`
 | `workspace_dir` | The directory of the workspace  | No | `"."` |
 | `access_key` | access key created from the [console](https://console.sdf.com/catalog/settings/general) to be used in `sdf push`  | No | |
