@@ -1,13 +1,14 @@
 workspace:
-  edition: "1.2"
+  edition: "1.3"
   name: dbt_hol
   includes:
     - path: target/compiled/sdf/models
       index: catalog-schema-table-name
-  providers:
-    - namespaces:
-        - target: census.public.*
-      type: snowflake
+  integrations:
+    - provider: snowflake
+      type: database
+      sources:
+        - pattern: census.public.*
   defaults:
     environment: dbg
     dialect: snowflake
