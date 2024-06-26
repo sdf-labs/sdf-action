@@ -5,12 +5,14 @@ workspace:
     - path: target/compiled/sdf/models
       index: catalog-schema-table-name
   integrations:
-    - provider: snowflake
-      type: database
+    - type: database
+      provider: snowflake
       sources:
         - pattern: census.public.*
+        - pattern: dbt_hol_dev.public.*
+        - pattern: dbt_hol_dev.public_demo.*
   defaults:
     environment: dbg
     dialect: snowflake
-    catalog: "${{ env_var('CATALOG') }}"
-    schema: "${{ env_var('SCHEMA') }}"
+    catalog: dbt_hol_dev
+    schema: public
