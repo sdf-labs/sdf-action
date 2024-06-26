@@ -80,10 +80,18 @@ if [[ -n $input_is_dbt ]]; then
 fi
 
 if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
-  echo "snowflake provider used: running 'sdf auth login'"
+  echo "snowflake provider used: running 'sdf auth login snowflake'"
   sdf auth login snowflake \
     --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
     --role "${SNOWFLAKE_ROLE}" --warehouse "${SNOWFLAKE_WAREHOUSE}"
+  check_exit_status $? ""
+fi
+
+if [ -n "${AWS_ACCESS_KEY_ID}" ]; then
+  echo "aws provider used: running 'sdf auth login aws'"
+  sdf auth login aws \
+    --access-key-id "${AWS_ACCESS_KEY_ID}" --secret-access-key "${AWS_SECRET_ACCESS_KEY}" \
+    --default-region "${AWS_DEFAULT_REGION}"
   check_exit_status $? ""
 fi
 
