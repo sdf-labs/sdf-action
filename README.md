@@ -18,7 +18,7 @@ Check out this [example workflow](./.github/workflows/examples.yml) to see how t
   with:
     # The version of SDF to use in the GitHub action.
     # This should match the version of SDF you use locally in development.
-    sdf_version: '0.3.1'
+    sdf_version: '0.3.0'
 
     # The SDF command to run. The exit code of this command is used to determine
     # success or failure of the action.
@@ -78,7 +78,7 @@ on:
 ...
     - uses: sdf-labs/sdf-action@v0
       with:
-        sdf_version: '0.3.1'
+        sdf_version: '0.3.0'
         command: 'sdf compile'
 ```
 
@@ -90,7 +90,7 @@ on:
 ...
     - uses: sdf-labs/sdf-action@v0
       with:
-        sdf_version: '0.3.1'
+        sdf_version: '0.3.0'
         command: 'sdf check'
         snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
         snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
@@ -111,7 +111,7 @@ on:
 ...
     - uses: sdf-labs/sdf-action@v0
       with:
-        sdf_version: '0.3.1'
+        sdf_version: '0.3.0'
         command: 'sdf push -y'
         workspace_dir: './my_sdf_workspace/'
         access_key: ${{ secrets.SDF_ACCESS_KEY }}
