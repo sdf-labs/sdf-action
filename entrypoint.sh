@@ -32,17 +32,38 @@ is_less_semvar() {
   done
 }
 
-min_version=$(curl https://api.sdf.com/api/v2/public.minVersion | jq -r '.result.data.json')
-if [[ $(is_less_semvar $sdf_version $min_version) -eq 1 ]]; then
-  echo "The input SDF CLI version is lower than the minimum required version: $min_version"
-  exit 1
+install_sdf() {
+  local target=""
+  local version_flag=""
+
+  if [ "$(uname -m)" = "aarch64" ]; then
+    target="--target aarch64-unknown-linux-gnu"
+  else
+    target=""
+  fi
+
+  if [ "$is_sdf_latest" != true ]; then
+    version_flag="--version ${sdf_version}"
+  fi
+
+  curl -LSfs https://cdn.sdf.com/releases/download/install.sh | bash -s -- ${version_flag} ${target}
+}
+
+if [[ "$sdf_version" != "latest" ]]; then
+  is_sdf_latest=false
+else
+  is_sdf_latest=true
 fi
 
-if [ "$(uname -m)" = "aarch64" ]; then
-  curl -LSfs https://cdn.sdf.com/releases/download/install.sh | bash -s -- --version ${sdf_version} --target aarch64-unknown-linux-gnu
-else
-  curl -LSfs https://cdn.sdf.com/releases/download/install.sh | bash -s -- --version ${sdf_version}
+if [ $is_sdf_latest != true ]; then
+  min_version=$(curl https://api.sdf.com/api/v2/public.minVersion | jq -r '.result.data.json')
+  if [[ $(is_less_semvar $sdf_version $min_version) -eq 1 ]]; then
+    echo "The input SDF CLI version is lower than the minimum required version: $min_version"
+    exit 1
+  fi
 fi
+
+install_sdf
 
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
 cd ${WORKSPACE_DIR}
@@ -80,10 +101,18 @@ if [[ -n $input_is_dbt ]]; then
 fi
 
 if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
-  echo "snowflake provider used: running 'sdf auth login'"
+  echo "snowflake provider used: running 'sdf auth login snowflake'"
   sdf auth login snowflake \
     --account-id "${SNOWFLAKE_ACCOUNT_ID}" --username "${SNOWFLAKE_USERNAME}" --password "${SNOWFLAKE_PASSWORD}" \
     --role "${SNOWFLAKE_ROLE}" --warehouse "${SNOWFLAKE_WAREHOUSE}"
+  check_exit_status $? ""
+fi
+
+if [ -n "${AWS_ACCESS_KEY_ID}" ]; then
+  echo "aws provider used: running 'sdf auth login aws'"
+  sdf auth login aws \
+    --access-key-id "${AWS_ACCESS_KEY_ID}" --secret-access-key "${AWS_SECRET_ACCESS_KEY}" \
+    --default-region "${AWS_DEFAULT_REGION}"
   check_exit_status $? ""
 fi
 

@@ -1,6 +1,6 @@
 workspace:
   name: lineage_sdf_action
-  edition: "1.1"
+  edition: "1.3"
   description: >
     Creates a three stage pipeline with one source ('source.sql') and two sinks, called 'sink.sql' and 'knis.sql'. It shows how to compute lineage.
 
@@ -18,8 +18,11 @@ workspace:
     - type: model
       path: src/
 
-    - type: code-contract
+    - type: check
       path: checks/
+  integrations:
+    - provider: snowflake
+      type: database
 ---
 classifier:
   name: DATA
@@ -36,8 +39,3 @@ table:
     - name: phone
       classifiers:
         - DATA.pii
----
-provider:
-  type: snowflake
-  sources:
-    - public
