@@ -1,4 +1,4 @@
-[![SDF + Snowflake / Redshift / DBT Tests](https://github.com/sdf-labs/sdf-action/actions/workflows/examples.yml/badge.svg)](https://github.com/sdf-labs/sdf-action/actions/workflows/examples.yml)
+[![SDF + Snowflake / Redshift / DBT Tests](https://github.com/sdf-labs/sdf-action/actions/workflows/examples.yml/badge.svg)](https://github.com/sdf-labs/sdf-action/actions/workflows/examples.yml) 
 
 
 # Official SDF GitHub Action
