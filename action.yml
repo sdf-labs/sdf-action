@@ -24,7 +24,6 @@ inputs:
     description: "Whether the workspace is dbt based or not"
     required: false
     default: ""
-
   # required if snowflake table provider is used
   snowflake_account_id:
     description: "The snowflake account id"
