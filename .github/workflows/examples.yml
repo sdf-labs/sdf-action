@@ -31,32 +31,24 @@ jobs:
           echo '```' >>$GITHUB_STEP_SUMMARY
 
   finances_dbt:
+    container:
+      image: ghcr.io/dbt-labs/dbt-snowflake:1.5.latest
+      volumes:
+        - ${{ github.workspace }}:/repo
     runs-on: ubuntu-latest
     name: xyz
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Run DBT deps
-        uses: mwhitaker/dbt-action@master
-        env: 
+      - name: Run DBT commands
+        env:
           DBT_TARGET: dev
           SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-        with:
-          dbt_command: dbt deps"
-          dbt_project_folder: "workspace/finances_dbt"
-
-      - name: Run DBT compile
-        uses: mwhitaker/dbt-action@master
-        env: 
-          DBT_TARGET: dev
-          SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-        with:
-          dbt_command: dbt compile"
-          dbt_project_folder: "workspace/finances_dbt"
-
+        run: |
+          cd /repo/workspace/finances_dbt
+          dbt deps
+          dbt compile
       - name: Run sdf compile
         uses: ./ # Uses an action in the root directory
         id: sdf
@@ -65,7 +57,6 @@ jobs:
           SCHEMA: public
           DBT_TARGET: dev
         with:
-          # TODO: FIX compile failed
           command: 'sdf compile'
           workspace_dir: 'workspace/finances_dbt'
           dbt_profile_dir: 'ci_profile'
