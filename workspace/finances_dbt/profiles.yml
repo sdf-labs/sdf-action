@@ -2,9 +2,9 @@ my_first_dbt_project:
   target: dev
   outputs:
     dev:
-      account: "{{ env('SNOWFLAKE_ACCOUNT_ID') }}"
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT_ID') }}"
       database: apress
-      password: "{{ env('SNOWFLAKE_PASSWORD') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: ACCOUNTADMIN
       schema: public
       threads: 10
@@ -12,9 +12,9 @@ my_first_dbt_project:
       user: dbt_user
       warehouse: dbt_dev_wh
     prod:
-      account: "{{ env('SNOWFLAKE_ACCOUNT_ID') }}"
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT_ID') }}"
       database: apress
-      password: "{{ env('SNOWFLAKE_PASSWORD') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: ACCOUNTADMIN
       schema: public
       threads: 1
