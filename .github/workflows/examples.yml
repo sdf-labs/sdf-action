@@ -48,7 +48,7 @@ jobs:
         run: |
           cd /repo/workspace/finances_dbt
           dbt deps
-          dbt compile
+          dbt compile --profiles-dir ci_profile
       - name: Run sdf compile
         uses: ./ # Uses an action in the root directory
         id: sdf
