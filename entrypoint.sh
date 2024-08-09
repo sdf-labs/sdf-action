@@ -116,6 +116,9 @@ if [ -n "${AWS_ACCESS_KEY_ID}" ]; then
   check_exit_status $? ""
 fi
 
+echo "running 'sdf auth status'"
+sdf auth status
+
 # run and save outputs
 echo "running command: $input_command"
 log=$($input_command 2>&1)
