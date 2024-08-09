@@ -1,0 +1,22 @@
+my_first_dbt_project:
+  target: dev
+  outputs:
+    dev:
+      account: "{{ env('SNOWFLAKE_ACCOUNT_ID') }}"
+      database: apress
+      password: "{{ env('SNOWFLAKE_PASSWORD') }}"
+      role: ACCOUNTADMIN
+      schema: public
+      threads: 10
+      type: snowflake
+      user: dbt_user
+      warehouse: dbt_dev_wh
+    prod: 
+      account: "{{ env('SNOWFLAKE_ACCOUNT_ID') }}"
+      database: apress
+      password: "{{ env('SNOWFLAKE_PASSWORD') }}"
+      role: ACCOUNTADMIN
+      schema: public
+      threads: 1
+      user: dbt_user
+      warehouse: dbt_dev_wh
