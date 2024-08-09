@@ -36,15 +36,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-          
-      - name: Run DBT commands
+
+      - name: Run DBT deps
         uses: mwhitaker/dbt-action@master
         env: 
           DBT_TARGET: dev
           SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         with:
-          dbt_command: dbt deps && dbt compile"
+          dbt_command: dbt deps"
+          dbt_project_folder: "workspace/finances_dbt"
+
+      - name: Run DBT compile
+        uses: mwhitaker/dbt-action@master
+        env: 
+          DBT_TARGET: dev
+          SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        with:
+          dbt_command: dbt compile"
           dbt_project_folder: "workspace/finances_dbt"
 
       - name: Run sdf compile
