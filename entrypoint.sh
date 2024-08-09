@@ -96,7 +96,7 @@ fi
 
 if [[ -n $input_is_dbt ]]; then
   echo "::group::Setting up dbt"
-  if [[ -n $dbt_profiles_dir ]]; then
+  if [[ -z $dbt_profiles_dir ]]; then
     sdf dbt refresh
   else
     sdf dbt refresh --profiles-dir $dbt_profiles_dir
