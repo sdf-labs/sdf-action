@@ -3,6 +3,7 @@
 input_command=$1
 input_is_dbt=$2
 sdf_version=$3
+dbt_profiles_dir=$4
 
 is_less_semvar() {
   # split the version strings into arrays
@@ -95,9 +96,13 @@ fi
 
 if [[ -n $input_is_dbt ]]; then
   echo "::group::Setting up dbt"
-  sdf dbt refresh
-  echo "::endgroup::"
+  if [[ -z $dbt_profiles_dir ]]; then
+    sdf dbt refresh
+  else
+    sdf dbt refresh --profiles-dir $dbt_profiles_dir
+  fi
   check_exit_status $? ""
+  echo "::endgroup::"
 fi
 
 if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
