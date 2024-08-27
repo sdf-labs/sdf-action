@@ -1,0 +1,95 @@
+models:
+  - name: fct_revenue_orders
+    description: "A model to calculate revenue from orders, incrementally updated."
+    config:
+      materialized: incremental
+      unique_key: OrderId
+      incremental_predicates:
+        - "DBT_INTERNAL_DEST.UpdatedAt > dateadd(day, -7, current_date())"
+    columns:
+      - name: OrderId
+        description: "Unique identifier for each order."
+        tests:
+          - unique
+          - not_null
+      - name: OrderPlacedTimestamp
+        description: "Timestamp when the order was placed."
+        tests:
+          - not_null
+      - name: UpdatedAt
+        description: "Timestamp when the order was last updated."
+      - name: OrderStatus
+        description: "Current status of the order."
+        tests:
+          - not_null
+      - name: SalesPerson
+        description: "Identifier for the salesperson who handled the order."
+      - name: Revenue
+        description: "Total revenue generated from the order."
+        tests:
+          - not_null
+  - name: fct_revenue_orders_insert_overwrite_static
+    description: "A model to calculate revenue from orders, incrementally updated with an insert overwrite strategy based on UpdatedAt partitions."
+    config:
+      materialized: incremental
+      partition_by:
+        field: UpdatedAt
+        data_type: timestamp
+      incremental_strategy: insert_overwrite
+      partitions:
+        - "timestamp(UpdatedAt)"
+        - "timestamp(date_sub(UpdatedAt, interval 2 day))"
+      enabled: false
+    columns:
+      - name: OrderId
+        description: "Unique identifier for each order."
+        tests:
+          - unique
+          - not_null
+      - name: OrderPlacedTimestamp
+        description: "Timestamp when the order was placed."
+        tests:
+          - not_null
+      - name: UpdatedAt
+        description: "Timestamp when the order was last updated."
+      - name: OrderStatus
+        description: "Current status of the order."
+        tests:
+          - not_null
+      - name: SalesPerson
+        description: "Identifier for the salesperson who handled the order."
+      - name: Revenue
+        description: "Total revenue generated from the order."
+        tests:
+          - not_null
+  - name: fct_revenue_orders_insert_overwrite_dynamic
+    description: "A model to calculate revenue from orders, incrementally updated with an insert overwrite strategy. It dynamically overwrites partitions based on the UpdatedAt field."
+    config:
+      materialized: incremental
+      partition_by:
+        field: UpdatedAt
+        data_type: timestamp
+      incremental_strategy: insert_overwrite
+      enabled: false
+    columns:
+      - name: OrderId
+        description: "Unique identifier for each order."
+        tests:
+          - unique
+          - not_null
+      - name: OrderPlacedTimestamp
+        description: "Timestamp when the order was placed."
+        tests:
+          - not_null
+      - name: UpdatedAt
+        description: "Timestamp when the order was last updated."
+      - name: OrderStatus
+        description: "Current status of the order."
+        tests:
+          - not_null
+      - name: SalesPerson
+        description: "Identifier for the salesperson who handled the order."
+      - name: Revenue
+        description: "Total revenue generated from the order."
+        tests:
+          - not_null

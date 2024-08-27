@@ -1,0 +1,6 @@
+table:
+  name: apress.public.raw_customers
+  columns:
+  - name: postalzip
+    classifiers:
+    - PII.address

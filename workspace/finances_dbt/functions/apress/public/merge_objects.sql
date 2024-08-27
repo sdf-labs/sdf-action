@@ -1,0 +1,7 @@
+CREATE OR REPLACE FUNCTION APRESS.PUBLIC.MERGE_OBJECTS("OBJ1" VARIANT, "OBJ2" VARIANT)
+RETURNS VARIANT
+LANGUAGE JAVASCRIPT
+COMMENT='Created by dbt-snowflake-monitoring dbt package.'
+AS '
+    return x = Object.assign(OBJ1, OBJ2)
+';

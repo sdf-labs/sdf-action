@@ -1,0 +1,16 @@
+table:
+  name: int_orders_items_products_joined
+  description: A table joining order items with products to provide a detailed view of each order item including the product details.
+  materialization: table
+  columns:
+  - name: OrderId
+    description: Identifier for the order to which the item belongs.
+  - name: Price
+    description: Price of the product.
+  - name: Product
+    description: Name of the product.
+  - name: Department
+    description: Department to which the product belongs.
+  - name: OrderItemsId
+    description: Unique identifier for each order item.
+  

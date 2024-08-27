@@ -1,0 +1,18 @@
+table:
+  name: fct_revenue_orders
+  description: A model to calculate revenue from orders, incrementally updated.
+  materialization: table
+  columns:
+  - name: OrderPlacedTimestamp
+    description: Timestamp when the order was placed.
+  - name: SalesPerson
+    description: Identifier for the salesperson who handled the order.
+  - name: Revenue
+    description: Total revenue generated from the order.
+  - name: OrderId
+    description: Unique identifier for each order.
+  - name: OrderStatus
+    description: Current status of the order.
+  - name: UpdatedAt
+    description: Timestamp when the order was last updated.
+  

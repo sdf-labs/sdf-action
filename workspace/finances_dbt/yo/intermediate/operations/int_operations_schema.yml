@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: int_orders_items_products_joined
+    description: "A table joining order items with products to provide a detailed view of each order item including the product details."
+    config:
+      materialized: table
+    columns:
+      - name: OrderItemsId
+        description: "Unique identifier for each order item."
+        tests:
+          - unique
+          - not_null
+      - name: OrderId
+        description: "Identifier for the order to which the item belongs."
+        tests:
+          - not_null
+      - name: Product
+        description: "Name of the product."
+        tests:
+          - not_null
+      - name: Department
+        description: "Department to which the product belongs."
+      - name: Price
+        description: "Price of the product."
+        tests:
+          - not_null
