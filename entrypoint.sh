@@ -97,9 +97,9 @@ fi
 if [[ -n $input_is_dbt ]]; then
   echo "::group::Setting up dbt"
   if [[ -z $dbt_profiles_dir ]]; then
-    sdf dbt refresh --no-save
+    sdf dbt refresh
   else
-    sdf dbt refresh --profiles-dir $dbt_profiles_dir --no-save
+    sdf dbt refresh --profiles-dir $dbt_profiles_dir
   fi
   check_exit_status $? ""
   echo "::endgroup::"
