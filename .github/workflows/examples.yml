@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Run DBT commands
-        uses: mwhitaker/dbt-action@master
+        uses: mwhitaker/dbt-action@v1.7.3
         env: 
           DBT_TARGET: dev
           SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
