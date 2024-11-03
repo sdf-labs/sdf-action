@@ -1,0 +1,25 @@
+table:
+  name: dim_customers
+  description: A model to represent customer data from the CRM staging table.
+  columns:
+  - name: LastName
+    description: Customer's last name, extracted and capitalized from the full name.
+  - name: FullName
+    description: Customer's full name, with the first letter of each part capitalized.
+  - name: PhoneNumber
+    description: Customer's phone number, formatted.
+  - name: Address
+    description: Customer's physical address.
+  - name: '"CustomerId"'
+    description: Unique identifier for each customer.
+  - name: FirstName
+    description: Customer's first name, extracted and capitalized from the full name.
+  - name: EmailAddress
+    description: Customer's email address.
+  - name: PostalZip
+    description: Postal or ZIP code for the customer's location.
+  - name: Country
+    description: Country where the customer is located.
+  - name: Region
+    description: Region where the customer is located.
+  

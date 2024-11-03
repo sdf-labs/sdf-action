@@ -29,6 +29,51 @@ jobs:
           echo '```' >>$GITHUB_STEP_SUMMARY
           echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
           echo '```' >>$GITHUB_STEP_SUMMARY
+
+  finances_dbt:
+    container:
+      image: ghcr.io/dbt-labs/dbt-snowflake:1.5.latest
+      volumes:
+        - ${{ github.workspace }}:/repo
+    runs-on: ubuntu-latest
+    name: xyz
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run DBT commands
+        env:
+          DBT_TARGET: dev
+          SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: |
+          cd /repo/workspace/finances_dbt
+          dbt deps
+          dbt compile --profiles-dir ci_profile
+      - name: Run sdf compile
+        uses: ./ # Uses an action in the root directory
+        id: sdf
+        env:
+          CATALOG: dbt_hol_dev
+          SCHEMA: public
+          DBT_TARGET: dev
+        with:
+          command: 'sdf compile'
+          workspace_dir: 'workspace/finances_dbt'
+          dbt_profiles_dir: 'ci_profile'
+          is_dbt: 'true'
+          snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
+          snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
+          snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          snowflake_role: 'dbt_test_role'
+          snowflake_warehouse: 'dbt_dev_wh'
+
+      # Use the output from the `sdf` step
+      - name: Display the sdf output
+        run: |
+          echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
+          echo '```' >>$GITHUB_STEP_SUMMARY
+          echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
+          echo '```' >>$GITHUB_STEP_SUMMARY
   
   # dbt_init_challenge_v1 - uses dbt-action
   dbt_init_challenge_v1:
@@ -37,7 +82,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
       - name: Run DBT commands
         uses: mwhitaker/dbt-action@v1.7.3
         env: 

@@ -1,0 +1,10 @@
+packages:
+- package: dbt-labs/dbt_utils
+  version: 1.0.0
+- package: dbt-labs/codegen
+  version: 0.12.1
+- package: get-select/dbt_snowflake_monitoring
+  version: 5.0.3
+- package: get-select/dbt_snowflake_query_tags
+  version: 2.3.3
+sha1_hash: 9d8cb4d885b32a6aa14dba1de4729e1564247600

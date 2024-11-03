@@ -1,0 +1,31 @@
+classifier:
+  name: PII
+  labels: 
+    - name: name
+    - name: email
+    - name: phone
+    - name: address
+    - name: hashed
+---
+table:
+  name: apress.public.raw_customers
+  columns:
+    - name: name
+      classifiers:
+        - PII.name
+    - name: email
+      classifiers:
+        - PII.email
+    - name: phone
+      classifiers:
+        - PII.phone
+    - name: address
+      classifiers:
+        - PII.address
+---
+function: 
+  name: md5
+  reclassify:
+    - from: PII.email
+      to: PII.hashed
+      
