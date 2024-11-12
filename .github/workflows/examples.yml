@@ -30,55 +30,7 @@ jobs:
           echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
           echo '```' >>$GITHUB_STEP_SUMMARY
 
-  # dbt_init_challenge_v1 - uses dbt-action
-  dbt_init_challenge_v1:
-    runs-on: ubuntu-latest
-    name: Snowflake + dbt workspace - run dbt commands using dbt-action
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Run DBT commands
-        uses: mwhitaker/dbt-action@v1.7.3
-        env:
-          DBT_TARGET: dev
-          SNOWFLAKE_ACCOUNT_ID: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-        with:
-          dbt_command: "dbt compile"
-          dbt_project_folder: "workspace/dbt_init_challenge"
-
-      - name: Run sdf push
-        uses: ./ # Uses an action in the root directory
-        id: sdf
-        env:
-          CATALOG: dbt_hol_dev
-          SCHEMA: public
-          DBT_TARGET: dev
-        with:
-          # TODO: FIX compile failed
-          command: "sdf push"
-          workspace_dir: "workspace/dbt_init_challenge"
-          access_key: ${{ secrets.ACCESS_KEY }}
-          secret_key: ${{ secrets.SECRET_KEY }}
-
-          is_dbt: "true"
-          snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
-          snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
-          snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          snowflake_role: "dbt_test_role"
-          snowflake_warehouse: "dbt_dev_wh"
-
-      # Use the output from the `sdf` step
-      - name: Display the sdf output
-        run: |
-          echo "### SDF Run Logs 🪵" >> $GITHUB_STEP_SUMMARY
-          echo '```' >>$GITHUB_STEP_SUMMARY
-          echo "${{ steps.sdf.outputs.log }}" >>$GITHUB_STEP_SUMMARY
-          echo '```' >>$GITHUB_STEP_SUMMARY
-
-  # dbt_init_challenge_v2: rus dbt commands in a container job
-  dbt_init_challenge_v2:
+  dbt_init_challenge:
     container:
       image: ghcr.io/dbt-labs/dbt-snowflake:1.8.latest
       volumes:
@@ -130,7 +82,7 @@ jobs:
 
   snowflake:
     container:
-      image: ghcr.io/dbt-labs/dbt-snowflake:1.5.latest
+      image: ghcr.io/dbt-labs/dbt-snowflake:1.8.latest
       volumes:
         - ${{ github.workspace }}:/repo
 

@@ -12,6 +12,8 @@ For an in-depth guide on how to use this GitHub, please see the GitHub CI/CD sec
 
 Check out this [example workflow](./.github/workflows/examples.yml) to see how to use this action.
 
+*Note: make sure to use a `dbt` version that is at least `1.8.0` if you need to use this action for a dbt project*
+
 <!-- start usage -->
 ```yaml
 - uses: sdf-labs/sdf-action@v0
