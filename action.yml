@@ -39,6 +39,15 @@ inputs:
   snowflake_password:
     description: "The snowflake password"
     required: false
+  snowflake_private_key_path:
+    description: "The path to the private key file"
+    required: false
+  snowflake_private_key_pem:
+    description: "The private key pem"
+    required: false
+  snowflake_private_key_passphrase:
+    description: "The private key passphrase"
+    required: false
   snowflake_role:
     description: "The snowflake role"
     required: false
@@ -55,6 +64,20 @@ inputs:
     required: false
   aws_secret_access_key:
     description: "The aws secret access key"
+    required: false
+
+  # required if bigquery table provider is used
+  bigquery_project_id:
+    description: "The bigquery project id"
+    required: false
+  bigquery_client_email:
+    description: "The bigquery client email"
+    required: false
+  bigquery_private_key:
+    description: "The private key pem"
+    required: false
+  bigquery_credentials_json_path:
+    description: "The path to the bigquery credentials json file"
     required: false
 
 outputs:
@@ -80,7 +103,15 @@ runs:
     SNOWFLAKE_PASSWORD: ${{ inputs.snowflake_password }}
     SNOWFLAKE_ROLE: ${{ inputs.snowflake_role }}
     SNOWFLAKE_WAREHOUSE: ${{ inputs.snowflake_warehouse }}
+    SNOWFLAKE_PRIVATE_KEY_PATH: ${{ inputs.snowflake_private_key_path }}
+    SNOWFLAKE_PRIVATE_KEY_PEM: ${{ inputs.snowflake_private_key_pem }}
+    SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ inputs.snowflake_private_key_passphrase }}
 
     AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
     AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
     AWS_DEFAULT_REGION: ${{ inputs.aws_region }}
+
+    BIGQUERY_PROJECT_ID: ${{ inputs.bigquery_project_id }}
+    BIGQUERY_CLIENT_EMAIL: ${{ inputs.bigquery_client_email }}
+    BIGQUERY_PRIVATE_KEY: ${{ inputs.bigquery_private_key }}
+    BIGQUERY_CREDENTIALS_JSON_PATH: ${{ inputs.bigquery_credentials_json_path }}
