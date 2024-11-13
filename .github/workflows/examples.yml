@@ -87,7 +87,7 @@ jobs:
         - ${{ github.workspace }}:/repo
 
     runs-on: ubuntu-latest
-    name: Snowflake workspace
+    name: Snowflake workspace with password auth
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -124,7 +124,7 @@ jobs:
         - ${{ github.workspace }}:/repo
 
     runs-on: ubuntu-latest
-    name: Snowflake workspace
+    name: Snowflake workspace with key pair auth
     steps:
       - name: Checkout
         uses: actions/checkout@v4
