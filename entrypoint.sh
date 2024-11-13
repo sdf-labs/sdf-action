@@ -124,11 +124,9 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
       echo "$SNOWFLAKE_PRIVATE_KEY_PEM" > "$PRIVATE_KEY_FILE"
       auth_command+=" --private-key-path \"${PRIVATE_KEY_FILE}\""
     fi
+     # Add passphrase if provided
+    auth_command+=" --private-key-passphrase \"${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}\""
     
-    # Add passphrase if provided
-    if [ -n "${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}" ]; then
-      auth_command+=" --private-key-passphrase \"${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}\""
-    fi
   else
     echo "Error: No authentication method provided for Snowflake. Please provide either password, private key path, or private key content."
     exit 1
