@@ -114,12 +114,12 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
   if [ -n "${SNOWFLAKE_PASSWORD}" ]; then
     # Password-based authentication
     auth_command+=" --password \"${SNOWFLAKE_PASSWORD}\""
-  elif [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ] || [ -n "${SNOWFLAKE_PRIVATE_KEY}" ]; then
+  elif [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ] || [ -n "${SNOWFLAKE_PRIVATE_KEY_PEM}" ]; then
     # Key-based authentication
     if [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ]; then
       auth_command+=" --private-key-path \"${SNOWFLAKE_PRIVATE_KEY_PATH}\""
     else
-      auth_command+=" --private-key \"${SNOWFLAKE_PRIVATE_KEY}\""
+      auth_command+=" --private-key-pem \"${SNOWFLAKE_PRIVATE_KEY_PEM}\""
     fi
     
     # Add passphrase if provided
