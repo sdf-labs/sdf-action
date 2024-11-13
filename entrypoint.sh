@@ -139,12 +139,6 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
   eval $auth_command
   check_exit_status $? ""
 
-  # Clean up temporary private key file if it was created
-  if [ -n "$PRIVATE_KEY_FILE" ]; then
-    rm -f "$PRIVATE_KEY_FILE"
-  fi
-fi
-
 if [ -n "${AWS_ACCESS_KEY_ID}" ]; then
   echo "aws provider used: running 'sdf auth login aws'"
   sdf auth login aws \
@@ -188,3 +182,13 @@ check_exit_status $exit_status "$log"
   echo EOF
 } >>$GITHUB_OUTPUT
 echo "result=passed" >>$GITHUB_OUTPUT
+
+# Define cleanup function
+cleanup() {
+    if [ -n "$PRIVATE_KEY_FILE" ]; then
+        rm -f "$PRIVATE_KEY_FILE"
+    fi
+}
+
+# Set trap to call cleanup on script exit
+trap cleanup EXIT
