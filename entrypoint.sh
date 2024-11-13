@@ -166,12 +166,12 @@ if [ -n "${BIGQUERY_PROJECT_ID}" ] || [ -n "${BIGQUERY_CREDENTIALS_JSON_PATH}" ]
     BIGQUERY_CREDENTIALS_JSON_FILE=$(mktemp)
     chmod 600 "$BIGQUERY_CREDENTIALS_JSON_FILE"
     cat <<EOF > "$BIGQUERY_CREDENTIALS_JSON_FILE"
-{
-  "project_id": "${BIGQUERY_PROJECT_ID}",
-  "client_email": "${BIGQUERY_CLIENT_EMAIL}",
-  "private_key": "${BIGQUERY_PRIVATE_KEY}"
-}
-EOF
+  {
+    "project_id": "${BIGQUERY_PROJECT_ID}",
+    "client_email": "${BIGQUERY_CLIENT_EMAIL}",
+    "private_key": "${BIGQUERY_PRIVATE_KEY}"
+  }
+  EOF
     auth_command+=" --json-path \"${BIGQUERY_CREDENTIALS_JSON_FILE}\""
   fi
   
