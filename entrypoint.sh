@@ -119,10 +119,10 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
     if [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ]; then
       auth_command+=" --private-key-path \"${SNOWFLAKE_PRIVATE_KEY_PATH}\""
     else
-      PRIVATE_KEY_FILE=$(mktemp)
-      chmod 600 "$PRIVATE_KEY_FILE"
-      echo "$SNOWFLAKE_PRIVATE_KEY_PEM" > "$PRIVATE_KEY_FILE"
-      auth_command+=" --private-key-path \"${PRIVATE_KEY_FILE}\""
+      SNOWFLAKE_PRIVATE_KEY_FILE=$(mktemp)
+      chmod 600 "$SNOWFLAKE_PRIVATE_KEY_FILE"
+      echo "$SNOWFLAKE_PRIVATE_KEY_PEM" > "$SNOWFLAKE_PRIVATE_KEY_FILE"
+      auth_command+=" --private-key-path \"${SNOWFLAKE_PRIVATE_KEY_FILE}\""
     fi
      # Add passphrase if provided
     auth_command+=" --private-key-passphrase \"${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}\""
@@ -162,7 +162,17 @@ if [ -n "${BIGQUERY_PROJECT_ID}" ] || [ -n "${BIGQUERY_CREDENTIALS_JSON_PATH}" ]
       echo "Error: For BigQuery individual credentials authentication, all of these are required: project_id, client_email, and private_key"
       exit 1
     fi
-    auth_command+=" --project-id \"${BIGQUERY_PROJECT_ID}\" --client-email \"${BIGQUERY_CLIENT_EMAIL}\" --private-key \"${BIGQUERY_PRIVATE_KEY}\""
+     # Create a temporary JSON file with credentials
+    BIGQUERY_CREDENTIALS_JSON_FILE=$(mktemp)
+    chmod 600 "$BIGQUERY_CREDENTIALS_JSON_FILE"
+    cat <<EOF > "$BIGQUERY_CREDENTIALS_JSON_FILE"
+{
+  "project_id": "${BIGQUERY_PROJECT_ID}",
+  "client_email": "${BIGQUERY_CLIENT_EMAIL}",
+  "private_key": "${BIGQUERY_PRIVATE_KEY}"
+}
+EOF
+    auth_command+=" --json-path \"${BIGQUERY_CREDENTIALS_JSON_FILE}\""
   fi
   
   eval $auth_command
@@ -185,8 +195,11 @@ echo "result=passed" >>$GITHUB_OUTPUT
 
 # Define cleanup function
 cleanup() {
-    if [ -n "$PRIVATE_KEY_FILE" ]; then
-        rm -f "$PRIVATE_KEY_FILE"
+    if [ -n "$SNOWFLAKE_PRIVATE_KEY_FILE" ]; then
+        rm -f "$SNOWFLAKE_PRIVATE_KEY_FILE"
+    fi
+    if [ -n "$BIGQUERY_CREDENTIALS_JSON_FILE" ]; then
+        rm -f "$BIGQUERY_CREDENTIALS_JSON_FILE"
     fi
 }
 
