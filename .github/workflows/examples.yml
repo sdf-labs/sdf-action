@@ -143,6 +143,7 @@ jobs:
           snowflake_account_id: ${{ secrets.SNOWFLAKE_ACCOUNT_ID }}
           snowflake_username: ${{ secrets.SNOWFLAKE_USERNAME }}
           snowflake_private_key_pem: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PEM }}
+          snowflake_private_key_passphrase: "None"
           snowflake_role: 'dbt_test_role'
           snowflake_warehouse: 'dbt_dev_wh'
 
