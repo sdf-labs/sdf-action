@@ -67,7 +67,7 @@ fi
 install_sdf
 
 echo "workspace dir set as: \"${WORKSPACE_DIR}\""
-cd "${WORKSPACE_DIR}"
+cd ${WORKSPACE_DIR}
 
 check_exit_status() {
   exit_status=$1
@@ -80,9 +80,9 @@ check_exit_status() {
       echo "Command failed with status $exit_status"
       echo "$command_log"
       echo EOF
-    } >>"$GITHUB_OUTPUT"
+    } >>$GITHUB_OUTPUT
 
-    echo "result=failed" >>"$GITHUB_OUTPUT"
+    echo "result=failed" >>$GITHUB_OUTPUT
     exit $exit_status
   fi
 }
@@ -99,7 +99,7 @@ if [[ -n $input_is_dbt ]]; then
   if [[ -z $dbt_profiles_dir ]]; then
     sdf dbt refresh
   else
-    sdf dbt refresh --profiles-dir "$dbt_profiles_dir"
+    sdf dbt refresh --profiles-dir $dbt_profiles_dir
   fi
   check_exit_status $? ""
   echo "::endgroup::"
@@ -167,7 +167,6 @@ if [ -n "${BIGQUERY_PROJECT_ID}" ] || [ -n "${BIGQUERY_CREDENTIALS_JSON_PATH}" ]
     chmod 600 "$BIGQUERY_CREDENTIALS_JSON_FILE"
     cat <<EOF > "$BIGQUERY_CREDENTIALS_JSON_FILE"
 {
-  "type": "service_account",
   "project_id": "${BIGQUERY_PROJECT_ID}",
   "client_email": "${BIGQUERY_CLIENT_EMAIL}",
   "private_key": "${BIGQUERY_PRIVATE_KEY}"
@@ -176,7 +175,7 @@ EOF
     auth_command+=" --json-path \"${BIGQUERY_CREDENTIALS_JSON_FILE}\""
   fi
   
-  eval "$auth_command"
+  eval $auth_command
   check_exit_status $? ""
 fi
 
@@ -191,8 +190,8 @@ check_exit_status $exit_status "$log"
   echo 'log<<EOF'
   echo "$log"
   echo EOF
-} >>"$GITHUB_OUTPUT"
-echo "result=passed" >>"$GITHUB_OUTPUT"
+} >> $GITHUB_OUTPUT
+echo "result=passed" >> $GITHUB_OUTPUT
 
 # Define cleanup function
 cleanup() {
