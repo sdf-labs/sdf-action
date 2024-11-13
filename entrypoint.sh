@@ -114,18 +114,18 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
   if [ -n "${SNOWFLAKE_PASSWORD}" ]; then
     # Password-based authentication
     auth_command+=" --password \"${SNOWFLAKE_PASSWORD}\""
-  elif [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ] || [ -n "${SNOWFLAKE_PRIVATE_KEY}" ]; then
+  elif [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ] || [ -n "${SNOWFLAKE_PRIVATE_KEY_PEM}" ]; then
     # Key-based authentication
     if [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ]; then
       auth_command+=" --private-key-path \"${SNOWFLAKE_PRIVATE_KEY_PATH}\""
     else
-      auth_command+=" --private-key \"${SNOWFLAKE_PRIVATE_KEY}\""
+      SNOWFLAKE_PRIVATE_KEY_FILE=$(mktemp)
+      chmod 600 "$SNOWFLAKE_PRIVATE_KEY_FILE"
+      echo "$SNOWFLAKE_PRIVATE_KEY_PEM" > "$SNOWFLAKE_PRIVATE_KEY_FILE"
+      auth_command+=" --private-key-path \"${SNOWFLAKE_PRIVATE_KEY_FILE}\""
     fi
-    
     # Add passphrase if provided
-    if [ -n "${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}" ]; then
-      auth_command+=" --private-key-passphrase \"${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}\""
-    fi
+    auth_command+=" --private-key-passphrase \"${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}\""
   else
     echo "Error: No authentication method provided for Snowflake. Please provide either password, private key path, or private key content."
     exit 1
@@ -135,7 +135,7 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
   [ -n "${SNOWFLAKE_ROLE}" ] && auth_command+=" --role \"${SNOWFLAKE_ROLE}\""
   [ -n "${SNOWFLAKE_WAREHOUSE}" ] && auth_command+=" --warehouse \"${SNOWFLAKE_WAREHOUSE}\""
   
-  eval $auth_command
+  eval "$auth_command"
   check_exit_status $? ""
 fi
 
@@ -162,14 +162,24 @@ if [ -n "${BIGQUERY_PROJECT_ID}" ] || [ -n "${BIGQUERY_CREDENTIALS_JSON_PATH}" ]
       echo "Error: For BigQuery individual credentials authentication, all of these are required: project_id, client_email, and private_key"
       exit 1
     fi
-    auth_command+=" --project-id \"${BIGQUERY_PROJECT_ID}\" --client-email \"${BIGQUERY_CLIENT_EMAIL}\" --private-key \"${BIGQUERY_PRIVATE_KEY}\""
+    # Create a temporary JSON file with credentials
+    BIGQUERY_CREDENTIALS_JSON_FILE=$(mktemp)
+    chmod 600 "$BIGQUERY_CREDENTIALS_JSON_FILE"
+    cat <<EOF > "$BIGQUERY_CREDENTIALS_JSON_FILE"
+{
+  "project_id": "${BIGQUERY_PROJECT_ID}",
+  "client_email": "${BIGQUERY_CLIENT_EMAIL}",
+  "private_key": "${BIGQUERY_PRIVATE_KEY}"
+}
+EOF
+    auth_command+=" --json-path \"${BIGQUERY_CREDENTIALS_JSON_FILE}\""
   fi
   
   eval $auth_command
   check_exit_status $? ""
 fi
 
-# run and save outputs
+# Run and save outputs
 echo "running command: $input_command"
 log=$($input_command 2>&1)
 exit_status=$?
@@ -180,5 +190,18 @@ check_exit_status $exit_status "$log"
   echo 'log<<EOF'
   echo "$log"
   echo EOF
-} >>$GITHUB_OUTPUT
-echo "result=passed" >>$GITHUB_OUTPUT
+} >> $GITHUB_OUTPUT
+echo "result=passed" >> $GITHUB_OUTPUT
+
+# Define cleanup function
+cleanup() {
+  if [ -n "$SNOWFLAKE_PRIVATE_KEY_FILE" ]; then
+    rm -f "$SNOWFLAKE_PRIVATE_KEY_FILE"
+  fi
+  if [ -n "$BIGQUERY_CREDENTIALS_JSON_FILE" ]; then
+    rm -f "$BIGQUERY_CREDENTIALS_JSON_FILE"
+  fi
+}
+
+# Set trap to call cleanup on script exit
+trap cleanup EXIT
