@@ -119,8 +119,10 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
     if [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ]; then
       auth_command+=" --private-key-path \"${SNOWFLAKE_PRIVATE_KEY_PATH}\""
     else
-      ESCAPED_KEY=$(printf '%b' "$SNOWFLAKE_PRIVATE_KEY_PEM")
-      auth_command+=" --private-key-pem \"${ESCAPED_KEY}\""
+      PRIVATE_KEY_FILE=$(mktemp)
+      chmod 600 "$PRIVATE_KEY_FILE"
+      echo "$SNOWFLAKE_PRIVATE_KEY_PEM" > "$PRIVATE_KEY_FILE"
+      auth_command+=" --private-key-path \"${PRIVATE_KEY_FILE}\""
     fi
     
     # Add passphrase if provided
@@ -138,6 +140,11 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
   
   eval $auth_command
   check_exit_status $? ""
+
+  # Clean up temporary private key file if it was created
+  if [ -n "$PRIVATE_KEY_FILE" ]; then
+    rm -f "$PRIVATE_KEY_FILE"
+  fi
 fi
 
 if [ -n "${AWS_ACCESS_KEY_ID}" ]; then
