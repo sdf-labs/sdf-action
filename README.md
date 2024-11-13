@@ -63,6 +63,7 @@ Check out this [example workflow](./.github/workflows/examples.yml) to see how t
     snowflake_private_key_path: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PATH }}  # Path to key file
     # OR
     snowflake_private_key_pem: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PEM }}    # Direct PEM content
+    #If you use private_key_pem paste the pem directly into github secrets as is with delimeters and new lines preserved.
     
     # Optional for key-pair authentication:
     snowflake_private_key_passphrase: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
