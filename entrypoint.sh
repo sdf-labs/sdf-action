@@ -117,7 +117,8 @@ if [ -n "${SNOWFLAKE_ACCOUNT_ID}" ]; then
   elif [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ] || [ -n "${SNOWFLAKE_PRIVATE_KEY_PEM}" ]; then
     # Key-based authentication
     if [ -n "${SNOWFLAKE_PRIVATE_KEY_PATH}" ]; then
-      auth_command+=" --private-key-path \"${SNOWFLAKE_PRIVATE_KEY_PATH}\""
+      ESCAPED_KEY=$(printf '%b' "$SNOWFLAKE_PRIVATE_KEY_PATH")
+      auth_command+=" --private-key-path \"${ESCAPED_KEY}\""
     else
       auth_command+=" --private-key-pem \"${SNOWFLAKE_PRIVATE_KEY_PEM}\""
     fi
